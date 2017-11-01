@@ -75,9 +75,11 @@ int main(int argc, char **argv) {
 
 		if (kDown & KEY_A) {
 			// C++ requires casts for malloc.
-			u8* arr = (u8*)malloc(240*320*3);
-			memset(arr, 0, 240*320*3);
-			screenArray.push_back(arr);
+			//u8* arr = (u8*)malloc(240*320*3);
+			//memset(arr, 0, 240*320*3);
+			//screenArray.push_back(arr);
+			std::vector<u8> newBuf(240*320*3, 255);
+			screenArr.push_back(newBuf);
 			printf("Allocated array\n");
 		}
 
