@@ -140,7 +140,8 @@ $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	# run citra when we run (requires citra to be simlinked to this directory)
-	./citra stop3DS.3dsx
+	#./citra stop3DS.3dsx
+	
 
 #---------------------------------------------------------------------------------
 clean:
