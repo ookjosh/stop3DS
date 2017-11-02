@@ -3,7 +3,8 @@
 #include <string.h> // memcpy
 #include <vector>
 #include <malloc.h>
-#include <time.h>
+
+#include "color.h"
 
 std::vector<std::vector<u8>> screenArr;
 
@@ -17,19 +18,12 @@ u8 color[3] = {(u8)0x7F, 0, (u8)0x7F};
 
 void drawPixel(u16 x, u16 y, u8* color) {
 	int pixelIndex = x*240*3 - y*3;
+	// Very important :-D
 	if (pixelIndex < 0) pixelIndex = 0;
-	//screenArray.at(zindex)[(x*240*3 - y*3)] = color[0];
-	//screenArray.at(zindex)[(x*240*3 - y*3)+1] = color[1];
-	//screenArray.at(zindex)[(x*240*3 - y*3)+2] = color[2];
-	//screenArr.at(zindex).at((x*240*3 - y*3)) = color[0]; 
+ 
 	screenArr.at(zindex).at(pixelIndex) = color[0];
 	screenArr.at(zindex).at(pixelIndex + 1) = color[1];
 	screenArr.at(zindex).at(pixelIndex + 2) = color[2];
-	//printf("Size: %d\n", screenArr.at(0).size());
-	//printf("\nX: %d\n", x);
-	//screenArr.at(zindex).at(x) = 0xA2;//color[0];
-	//screenArr.at(zindex).at(10*240*3 - 10*3 + 1) = 0xDE;
-	//screenArr.at(zindex).at(10*240*3 - 10*3 + 2) = 0xBF;
 }
 
 void drawBlock(int x, int y, u8* color) {
@@ -46,6 +40,9 @@ int main(int argc, char **argv) {
 	consoleInit(GFX_TOP, NULL);
 
 	gfxSetDoubleBuffering(GFX_BOTTOM, true);
+
+	// Initialize colors
+	initColors();
 
 	memset(whiteBuffer, 0xFF, sizeof(whiteBuffer));
 
