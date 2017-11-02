@@ -15,7 +15,8 @@ void addColor(Color c);
 
 
 
-std::vector<Color> colorList(8);
+std::vector<Color> colorList;
+u8 currentColor = 0;
 
 void initColors() {
 	addColor(0,0,0);
