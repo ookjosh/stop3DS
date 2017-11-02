@@ -14,6 +14,10 @@ u8 whiteBuffer[240*320*3];
 
 unsigned int zindex = 0;
 
+bool animating = false;
+int tick = 0;
+int curFrame = 0;
+
 u8 color[3] = {(u8)0x7F, 0, (u8)0x7F};
 
 void drawPixel(u16 x, u16 y, Color c) {
@@ -91,6 +95,7 @@ int main(int argc, char **argv) {
 		}
 
 		if (kDown & KEY_B) {
+			animating = !animating;
 		}
 
 		drawBlock(touch.px, touch.py, colorList.at(currentColor));
@@ -112,7 +117,21 @@ int main(int argc, char **argv) {
 		//screenArr.at(zindex).at(10*240*3 - 10*3) = 0xA2;//color[0];
 		//screenArr.at(zindex).at(10*240*3 - 10*3 + 1) = 0xDE;
 		//screenArr.at(zindex).at(10*240*3 - 10*3 + 2) = 0xBF;
-		std::copy(screenArr.at(zindex).begin(), screenArr.at(zindex).end(), fb);
+
+		if (animating) {
+			tick++;
+			if (tick > 60) {
+				curFrame++;
+				if (curFrame > screenArr.size() - 1) {
+					curFrame = 0;
+				}
+				tick = 0;
+			}
+			std::copy(screenArr.at(curFrame).begin(), screenArr.at(curFrame).end(), fb);
+		} else {
+			std::copy(screenArr.at(zindex).begin(), screenArr.at(zindex).end(), fb);	
+		}
+		
 
 		gfxFlushBuffers();
 		gfxSwapBuffers();
