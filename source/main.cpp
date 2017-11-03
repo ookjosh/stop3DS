@@ -8,6 +8,8 @@
 
 std::vector<std::vector<u8>> screenArr;
 
+std::vector<u8> canvas(240*320*3, 0);
+
 std::vector<u8> funkyBuffer(240*320*3, 0x7F);
 
 u8 whiteBuffer[240*320*3];
@@ -17,6 +19,9 @@ unsigned int zindex = 0;
 bool animating = false;
 int tick = 0;
 int curFrame = 0;
+// fps_ticks/60 is fps
+int fps_ticks = 60; 
+bool onionSkin = false;
 
 u8 color[3] = {(u8)0x7F, 0, (u8)0x7F};
 
@@ -37,6 +42,13 @@ void drawBlock(int x, int y, Color color) {
 	drawPixel(x+1, y, color);
 	drawPixel(x+1, y+1, color);
 
+}
+
+void onionFrame(u8* frame) {
+	float alpha = 0.5;
+	for (int i = 0; i < 240*320*3; i++) {
+		frame[i] = (u8)((1 - alpha) * 255 + (alpha * frame[i]));
+	}
 }
 
 int main(int argc, char **argv) {
@@ -98,6 +110,18 @@ int main(int argc, char **argv) {
 			animating = !animating;
 		}
 
+		if (kDown & KEY_X) {
+			fps_ticks -= 5;
+		}
+
+		if (kDown & KEY_Y) {
+			fps_ticks += 5;
+		}
+
+		if (kDown & KEY_L) {
+			onionSkin = !onionSkin;
+		}
+
 		drawBlock(touch.px, touch.py, colorList.at(currentColor));
 
 
@@ -114,14 +138,13 @@ int main(int argc, char **argv) {
 		printf("\x1b[9;0HColor: %d", currentColor);
 		printf("\x1b[10;0HR: %d, G: %d, B: %d", colorList.at(currentColor).r,
 			colorList.at(currentColor).g, colorList.at(currentColor).b);
-		//screenArr.at(zindex).at(10*240*3 - 10*3) = 0xA2;//color[0];
-		//screenArr.at(zindex).at(10*240*3 - 10*3 + 1) = 0xDE;
-		//screenArr.at(zindex).at(10*240*3 - 10*3 + 2) = 0xBF;
 
 		if (animating) {
 			tick++;
-			if (tick > 60) {
+			// Where 60 ticks = 1 second
+			if (tick > fps_ticks) {
 				curFrame++;
+				// Loop back to first frame
 				if (curFrame > screenArr.size() - 1) {
 					curFrame = 0;
 				}
@@ -129,7 +152,31 @@ int main(int argc, char **argv) {
 			}
 			std::copy(screenArr.at(curFrame).begin(), screenArr.at(curFrame).end(), fb);
 		} else {
-			std::copy(screenArr.at(zindex).begin(), screenArr.at(zindex).end(), fb);	
+			// Need onionskinning and a previous frame to skin.
+			if (onionSkin && zindex > 0) {
+				// Get copy to alphaify
+				std::vector<u8> temp = screenArr.at(zindex - 1);
+				// Make it transparent
+				onionFrame(&temp[0]);
+				// Set that as the base of our canvas
+				canvas = temp;
+
+				// Now we need to put only new information on top of this
+				// onion skin. For now, ignore any pixel that's the background
+				// color of the frames.
+				// TODO: use an iterator for the vector instead?
+				u8* current_layer = &screenArr.at(zindex)[0];
+				for (int i = 0; i < screenArr.at(zindex).size(); i++) {
+					if (current_layer[i] != 0xFF) {
+						canvas[i] = current_layer[i]; 
+					}
+				}
+
+			} else {
+			 	canvas = screenArr.at(zindex);	
+			}
+
+			std::copy(canvas.begin(), canvas.end(), fb);
 		}
 		
 
