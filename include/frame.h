@@ -19,15 +19,15 @@ private:
 
 // Constructor for frame class. Populates the layers vector.
 Frame::Frame() {
-	layers.push_back(Layer(COLOR_FULL_BYTES));
-	layers.push_back(Layer(COLOR_FULL_BYTES));
+	layers.push_back(Layer(COLOR_FULL));
+	layers.push_back(Layer(COLOR_FULL));
 };
 // Draws all of the layers contained in the layers vector.
 void Frame::draw(u8* fb) {
 	printf("Frames size: %d\n", layers.size());
-	//for (std::vector<Layer>::iterator it = layers.begin(); it != layers.end(); ++it) {
-		//it->draw(fb);
-	///}
+	for (std::vector<Layer>::iterator it = layers.begin(); it != layers.end(); ++it) {
+		it->draw(fb);
+	}
 };
 
 void Frame::clear(int frame) {
