@@ -1,24 +1,31 @@
 // Scene.h
+#ifndef SCENE_H
+#define SCENE_H
+
+#include <3ds.h>
+#include <vector>
+#include "frame.h"
 
 class Scene {
 public:
-	void update();
+	void update(u8* fb);
 	void addFrame();
 	void insertFrame();
 	void deleteFrame();
-	void clearFrame();
+	void clearFrame(int frame);
 	void setAnimating(bool anim);
 	void setTicksPerFrame(int count);
 
 private:
-	std::vector<Frame> frames
+	std::vector<Frame> frames;
 	unsigned int currentFrame = 0;
 	unsigned int ticks = 0;
 	unsigned int ticksPerFrame = 60;
 	bool animating = false;
 };
 
-void Scene::update() {
+// Updates scene if necessary, passing current framebuffer.
+void Scene::update(u8* fb) {
 	if (ticks > ticksPerFrame) {
 		currentFrame++;
 		if (currentFrame > frames.size() - 1) {
@@ -26,7 +33,7 @@ void Scene::update() {
 		}
 		ticks = 0;
 	}
-	frames.at(currentFrame).draw();
+	frames.at(currentFrame).draw(fb);
 	if (animating) {
 		ticks++;	
 	}
@@ -39,13 +46,13 @@ void Scene::addFrame() {
 
 // Inserts a new frame after current one.
 void Scene::insertFrame() {
-	frames.insert(currentFrame, Frame());
+	frames.insert(frames.begin() + currentFrame, Frame());
 }
 
 // Deletes the current frame
 void Scene::deleteFrame() {
 	if (currentFrame != 0) {
-		frames.erase(currentFrame);	
+		frames.erase(frames.begin() + currentFrame);	
 	}
 	if (currentFrame == 0) {
 		clearFrame(currentFrame);
@@ -53,16 +60,18 @@ void Scene::deleteFrame() {
 }
 
 // Clears a frame (resets it to empty).
-void Scene::clearFrame() {
-	frames.at(currentFrame).clear();
+void Scene::clearFrame(int frame) {
+	frames.at(currentFrame).clear(frame);
 }
 
 // Sets if we are animating the scene or not.
-void setAnimating(bool anim) {
+void Scene::setAnimating(bool anim) {
 	animating = anim;
 }
 
 // Updates scene's framerate.
-void setTicksPerFrame(int count) {
+void Scene::setTicksPerFrame(int count) {
 	ticksPerFrame = count;
 }
+
+#endif

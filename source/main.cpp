@@ -5,6 +5,7 @@
 #include <malloc.h>
 
 #include "color.h"
+#include "animation.h"
 
 std::vector<std::vector<u8>> screenArr;
 
