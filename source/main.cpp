@@ -26,6 +26,8 @@ bool onionSkin = false;
 
 u8 color[3] = {(u8)0x7F, 0, (u8)0x7F};
 
+Animation currentAnimation;
+
 void drawPixel(u16 x, u16 y, Color c) {
 	int pixelIndex = x*240*3 - y*3;
 	// Very important :-D
@@ -123,7 +125,7 @@ int main(int argc, char **argv) {
 			onionSkin = !onionSkin;
 		}
 
-		drawBlock(touch.px, touch.py, colorList.at(currentColor));
+		//drawBlock(touch.px, touch.py, colorList.at(currentColor));
 
 
 		printf("\x1b[0;0HIndex: %d", zindex);
@@ -138,8 +140,12 @@ int main(int argc, char **argv) {
 		printf("\x1b[8;0HX: %d, Y: %d          ", touch.px, touch.py);
 		printf("\x1b[9;0HColor: %d", currentColor);
 		printf("\x1b[10;0HR: %d, G: %d, B: %d", colorList.at(currentColor).r,
-			colorList.at(currentColor).g, colorList.at(currentColor).b);
+		colorList.at(currentColor).g, colorList.at(currentColor).b);
 
+
+		currentAnimation.update(fb);
+
+		/*
 		if (animating) {
 			tick++;
 			// Where 60 ticks = 1 second
@@ -179,7 +185,7 @@ int main(int argc, char **argv) {
 
 			std::copy(canvas.begin(), canvas.end(), fb);
 		}
-		
+		*/
 
 		gfxFlushBuffers();
 		gfxSwapBuffers();

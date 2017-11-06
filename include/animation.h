@@ -33,6 +33,7 @@ Animation::Animation() {
 // Updates current frame.
 void Animation::update(u8* fb) {
 	frameBuffer = fb;
+	printf("Size %d\n", scenes.size());
 	scenes.at(currentScene).update(fb);
 };
 

@@ -8,6 +8,7 @@
 
 class Scene {
 public:
+	Scene();
 	void update(u8* fb);
 	void addFrame();
 	void insertFrame();
@@ -24,8 +25,14 @@ private:
 	bool animating = false;
 };
 
+Scene::Scene() {
+	addFrame();
+}
+
 // Updates scene if necessary, passing current framebuffer.
 void Scene::update(u8* fb) {
+	printf("Scene update. Size: %d\n", frames.size());
+	
 	if (ticks > ticksPerFrame) {
 		currentFrame++;
 		if (currentFrame > frames.size() - 1) {
@@ -37,6 +44,7 @@ void Scene::update(u8* fb) {
 	if (animating) {
 		ticks++;	
 	}
+	
 };
 
 // Adds frame to end of vector.

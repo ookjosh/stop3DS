@@ -24,9 +24,10 @@ Frame::Frame() {
 };
 // Draws all of the layers contained in the layers vector.
 void Frame::draw(u8* fb) {
-	for (std::vector<Layer>::iterator it = layers.begin(); it != layers.end(); ++it) {
-		it->draw(fb);
-	}
+	printf("Frames size: %d\n", layers.size());
+	//for (std::vector<Layer>::iterator it = layers.begin(); it != layers.end(); ++it) {
+		//it->draw(fb);
+	///}
 };
 
 void Frame::clear(int frame) {
