@@ -77,6 +77,7 @@ int main(int argc, char **argv) {
 	topScreen.drawLine(200, 50, 150, 25, colorList.at(currentColor+6));
 
 	topScreen.drawRect(300, 100, 150, 300, colorList.at(currentColor+2));
+	topScreen.fillRect(300,150,150, 300, colorList.at(currentColor+4));
 
 	while (aptMainLoop()) {
 		hidScanInput();

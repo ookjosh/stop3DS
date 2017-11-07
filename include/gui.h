@@ -133,6 +133,32 @@ void TopScreen::drawRect(int x, int y, int w, int h, Color c) {
 }
 
 void TopScreen::fillRect(int x, int y, int w, int h, Color c) {
+	// Determine x,y
+	// Find x2 vs x1 - step = 1,-1
+	
+	// Always starts at (x,y) and extends to (x+w, y+h)
+	// so that simplifies things
+	int pixelIndex;
+	for (int k = y; k < y + h; k++) {	
+		if (k > TOP_SCREEN_HEIGHT || k < 0) {
+			continue;
+		}
+		for (int i = x; i < x + w; i++) {
+			pixelIndex = (i)*240*3 - (k)*3;
+			// Check if valid index
+			if (pixelIndex < 0) pixelIndex = -1;
+			if (pixelIndex > 400*240*3) pixelIndex = -1;
+			if (pixelIndex < 0) {
+				// Out of bounds, on to next loop
+				continue;
+			}
+
+			canvas[pixelIndex] = c.b;
+			canvas[pixelIndex+1] = c.g;
+			canvas[pixelIndex+2] = c.r;
+		}
+	}
+
 
 }
 
