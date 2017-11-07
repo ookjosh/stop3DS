@@ -13,7 +13,7 @@ public:
 	void draw(u8* fb);
 	void clear(int frame);
 
-	Layer getLayer(int index);
+	Layer& getLayer(int index);
 
 private:
 	std::vector<Layer> layers;
@@ -26,7 +26,7 @@ Frame::Frame() {
 };
 // Draws all of the layers contained in the layers vector.
 void Frame::draw(u8* fb) {
-	printf("Frames size: %d\n", layers.size());
+	printf("Number of layers: %d\n", layers.size());
 	for (std::vector<Layer>::iterator it = layers.begin(); it != layers.end(); ++it) {
 		it->draw(fb);
 	}
@@ -36,11 +36,11 @@ void Frame::clear(int frame) {
 
 };
 
-Layer Frame::getLayer(int index) {
+Layer& Frame::getLayer(int index) {
 	if (index > layers.size()) {
 		return layers.at(0);
 	}
-
+	printf("got layer %d", index);
 	return layers.at(index);
 }
 

@@ -125,6 +125,11 @@ int main(int argc, char **argv) {
 			onionSkin = !onionSkin;
 		}
 
+		if (kDown & KEY_R) {
+			printf("CleARING\n");
+			currentAnimation.getScene(0).getFrame(0).getLayer(0).clear();
+		}
+
 		//drawBlock(touch.px, touch.py, colorList.at(currentColor));
 
 
@@ -142,7 +147,7 @@ int main(int argc, char **argv) {
 		printf("\x1b[10;0HR: %d, G: %d, B: %d", colorList.at(currentColor).r,
 		colorList.at(currentColor).g, colorList.at(currentColor).b);
 
-		currentAnimation.getScene(0).getFrame(0).getLayer(0).drawPixel(touch.px, touch.py, colorList.at(currentColor));
+		//currentAnimation.getScene(0).getFrame(0).getLayer(0).drawPixel(touch.px, touch.py, colorList.at(currentColor));
 
 		currentAnimation.update(fb);
 

@@ -17,7 +17,7 @@ public:
 	void setAnimating(bool anim);
 	void setTicksPerFrame(int count);
 
-	Frame getFrame(int index);
+	Frame& getFrame(int index);
 
 private:
 	std::vector<Frame> frames;
@@ -33,7 +33,7 @@ Scene::Scene() {
 
 // Updates scene if necessary, passing current framebuffer.
 void Scene::update(u8* fb) {
-	printf("Scene update. Size: %d\n", frames.size());
+	printf("Number of frames: %d\n", frames.size());
 	
 	if (ticks > ticksPerFrame) {
 		currentFrame++;
@@ -84,11 +84,12 @@ void Scene::setTicksPerFrame(int count) {
 	ticksPerFrame = count;
 }
 
-Frame Scene::getFrame(int index) {
+Frame& Scene::getFrame(int index) {
 	if (index > frames.size()) {
 		// ERROR! TODO: handle this well.
 		return frames.at(0);
 	}
+	printf("got frame %d", index);
 	return frames.at(index);
 }
 

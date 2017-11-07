@@ -35,15 +35,17 @@ private:
 	int paletteType = 0;
 };
 
-Layer::Layer(int paletteType) {
+Layer::Layer(int palType) {
 	// We are setting = to new vector because that lets us 
 	// fill with an initial value more succintly (vs resize etc)
-	switch (paletteType) {
+	switch (palType) {
 		case COLOR_16:
 			canvas = std::vector<u8>(COLOR_16_BYTES, 0);
+			paletteType = palType;
 			break;
 		case COLOR_256:
 			canvas = std::vector<u8>(COLOR_256_BYTES, 0);
+			paletteType = palType;
 			break;
 		case COLOR_FULL:
 			canvas = std::vector<u8>(COLOR_FULL_BYTES, 0);
@@ -51,6 +53,8 @@ Layer::Layer(int paletteType) {
 				if (i % 3 == 0)
 				canvas.at(i) = 0x7F;
 			}
+
+			paletteType = palType;
 			break;
 		default:
 			break;
@@ -64,6 +68,21 @@ void Layer::draw(u8* framebuffer) {
 		framebuffer[i] = canvas[i];
 	}
 };
+
+void Layer::clear() {
+	printf("Clearing\n");
+	int numBytes = COLOR_FULL_BYTES;
+	if (paletteType == COLOR_16) {
+		numBytes = COLOR_16_BYTES;
+	} else if (paletteType == COLOR_256) {
+		numBytes = COLOR_256_BYTES;
+	}
+
+	for (int i = 0; i < numBytes; i++) {
+		canvas[i] = 0;
+	}	
+
+}
 
 int Layer::getZIndex() {
 	return zIndex;

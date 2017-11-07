@@ -15,7 +15,7 @@ public:
 	Animation();
 	void update(u8* fb);
 	u8* getFramebuffer();
-	Scene getScene(int index);
+	Scene& getScene(int index);
 private:
 	std::vector<Scene> scenes;
 	unsigned int currentScene = 0;
@@ -33,7 +33,7 @@ Animation::Animation() {
 // Updates current frame.
 void Animation::update(u8* fb) {
 	frameBuffer = fb;
-	printf("Size %d\n", scenes.size());
+	printf("Number of Scenes %d\n", scenes.size());
 	scenes.at(currentScene).update(fb);
 };
 
@@ -42,7 +42,7 @@ u8* Animation::getFramebuffer() {
 	return frameBuffer;
 }
 
-Scene Animation::getScene(int index) {
+Scene& Animation::getScene(int index) {
 	if (index > scenes.size()) {
 		// Handle error here!
 		// Do I want to have a special Scene that
@@ -50,6 +50,7 @@ Scene Animation::getScene(int index) {
 		// or just return a valid scene...?
 		return scenes.at(0);
 	}
+	printf("got scene %d", index);
 	return scenes.at(index);
 }
 
