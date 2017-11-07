@@ -13,4 +13,7 @@
 // 1 byte per pixel
 #define COLOR_256_BYTES (320*240)
 
+#define TOP_SCREEN_WIDTH 400
+#define TOP_SCREEN_HEIGHT 240
+
 #endif

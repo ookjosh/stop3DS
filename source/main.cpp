@@ -70,11 +70,13 @@ int main(int argc, char **argv) {
 	screenArr.push_back(funkyBuffer);
 
 	//topScreen.drawRect(50, 50, 100, 100, colorList.at(currentColor+4));
-	topScreen.drawLine(50,100, 50, 50, colorList.at(currentColor+5));
+	topScreen.drawLine(0,100, 50, 50, colorList.at(currentColor+5));
 	topScreen.drawLine(70,50, 70, 100, colorList.at(currentColor+5));
 	topScreen.drawLine(50, 100, 100, 50, colorList.at(currentColor+4));
 	topScreen.drawLine(50, 50, 100, 50, colorList.at(currentColor+3));
 	topScreen.drawLine(200, 50, 150, 25, colorList.at(currentColor+6));
+
+	topScreen.drawRect(300, 100, 150, 300, colorList.at(currentColor+2));
 
 	while (aptMainLoop()) {
 		hidScanInput();

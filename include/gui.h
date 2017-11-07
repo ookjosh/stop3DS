@@ -19,7 +19,7 @@ private:
 };
 
 TopScreen::TopScreen() {
-	canvas = std::vector<u8>(COLOR_FULL_BYTES, 0);
+	canvas = std::vector<u8>(400*240*3, 0);
 }
 
 void TopScreen::update(u8* framebuffer) {
@@ -72,8 +72,18 @@ void TopScreen::drawLine(int x1, int y1, int x2, int y2, Color c) {
 
 		// Draws pixels in column.
 		for (int i = currentY; i != y2; i+= step) {
+
+			if (i > TOP_SCREEN_HEIGHT || i < 0) {
+				continue;
+			}
 			pixelIndex = (currentX)*240*3 - (i)*3;
-			if (pixelIndex < 0) pixelIndex = 0;
+			// Check if index is valid.
+			if (pixelIndex < 0) pixelIndex = -1;
+			if (pixelIndex > 400*240*3) pixelIndex = -1;
+			if (pixelIndex < 0) {
+				// Not valid, on to next loop cycle
+				continue;
+			}
 
 			canvas[pixelIndex] = c.b;
 			canvas[pixelIndex+1] = c.g;
@@ -93,8 +103,18 @@ void TopScreen::drawLine(int x1, int y1, int x2, int y2, Color c) {
 
 	for (int i = currentX; i != x2; i+= step) {
 
+		if (currentY > TOP_SCREEN_HEIGHT || currentY < 0) {
+			continue;
+		}
+
 		pixelIndex = (i)*240*3 - (currentY)*3;
-		if (pixelIndex < 0) pixelIndex = 0;
+		// Check if valid index
+		if (pixelIndex < 0) pixelIndex = -1;
+		if (pixelIndex > 400*240*3) pixelIndex = -1;
+		if (pixelIndex < 0) {
+			// Out of bounds, on to next loop
+			continue;
+		}
 
 		canvas[pixelIndex] = c.b;
 		canvas[pixelIndex+1] = c.g;
