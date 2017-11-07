@@ -30,7 +30,7 @@ include $(DEVKITARM)/3ds_rules
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
-DATA		:=	data
+#DATA		:=	data
 INCLUDES	:=	include
 #ROMFS		:=	romfs
 

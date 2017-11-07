@@ -33,9 +33,17 @@ void TopScreen::update(u8* framebuffer) {
 void TopScreen::updateAnimation(u8* frame) {
 	// Draw current animation to our canvas.
 	// TODO: SUPPORT OTHER COLOR TYPES CORRECTLY.
-	// We have an offset of 40 pixels * 3 bpp
-	int offset = 240*40*3;//40*3;
-	const int imageWidth = 240*3;
+
+	// So... The frame is indexed from the bottom left corner and
+	// increases up by y then over by x. So the middle section here
+	// can actually be a contiguous chunk of data that is just inserted.
+	// I had previously been thinking of a "normal" screen indexing where
+	// (0,0) is top left and you go right and then down. For that case 
+	// you would have to have extra logic to copy the right bytes to the
+	// middle of the frame, but fortunately this is simpler.
+
+	// We have an offset of 40 columns * 240 pixels per column * 3 bpp
+	const int offset = 240*40*3;
 	for (int i = 0; i < COLOR_FULL_BYTES; i++) {
 		canvas[i+offset] = frame[i];
 	}

@@ -30,6 +30,9 @@ u8 color[3] = {(u8)0x7F, 0, (u8)0x7F};
 Animation currentAnimation;
 TopScreen topScreen;
 
+bool touchLastTick = false;
+touchPosition oldTouch;
+
 void drawPixel(u16 x, u16 y, Color c) {
 	int pixelIndex = x*240*3 - y*3;
 	// Very important :-D
@@ -58,7 +61,7 @@ void onionFrame(u8* frame) {
 
 int main(int argc, char **argv) {
 	gfxInitDefault();
-	//consoleInit(GFX_TOP, NULL);
+	consoleInit(GFX_TOP, NULL);
 
 	gfxSetDoubleBuffering(GFX_BOTTOM, true);
 
@@ -138,32 +141,40 @@ int main(int argc, char **argv) {
 		//drawBlock(touch.px, touch.py, colorList.at(currentColor));
 
 
-		printf("\x1b[0;0HIndex: %d", zindex);
-		printf("\x1b[1;0HArraySize: %d", screenArr.size());
-		printf("\x1b[2;0HUsed memory: %dkB\n", screenArr.size() * 240 * 320 * 3 / 1024);
+		printf("\x1b[0;0HX: %d, Y: %d, %s\n", touch.px, touch.py, touchLastTick ? "true": "false");
 
-		u8* fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-		printf("\x1b[4;0Harray location: %d", &screenArr[0]);
-		printf("\x1b[5;0Harray value: %d", screenArr.at(zindex).at(touch.px));
-		printf("\x1b[6;0Harray size: %d, %d", screenArr.size(), screenArr.at(zindex).size());
+
+
+		// Draw user input.
+		bool touchThisTick = false;
+		if (touch.px == 0 && touch.py == 0) {
+			touchThisTick = false;
+		} else {
+			touchThisTick = true;
+		}
+
+		if (touchLastTick && touchThisTick) {
+			currentAnimation.getScene(0).getFrame(0).getLayer(1).drawLine(touch.px, touch.py, oldTouch.px, oldTouch.py, colorList.at(currentColor));
+			oldTouch = touch;
+		} else {
+			currentAnimation.getScene(0).getFrame(0).getLayer(1).drawPixel(touch.px, touch.py, colorList.at(currentColor));	
+			touchLastTick = touchThisTick;
+			oldTouch = touch;
+		}
+		//oldTouch = touch;
 		
-		printf("\x1b[8;0HX: %d, Y: %d          ", touch.px, touch.py);
-		printf("\x1b[9;0HColor: %d", currentColor);
-		printf("\x1b[10;0HR: %d, G: %d, B: %d", colorList.at(currentColor).r,
-		colorList.at(currentColor).g, colorList.at(currentColor).b);
-
-		currentAnimation.getScene(0).getFrame(0).getLayer(1).drawPixel(touch.px, touch.py, colorList.at(currentColor));
-
+		// Update bottom framebuffer.
+		u8* fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
 		currentAnimation.update(fb);
 
-		u8* fbTop = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+		//u8* fbTop = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
 
 		// So this is a lazy way of doing this. We populate the real framebuffer with the complete
 		// current frame and then pass that framebuffer as the "frame" data to the top screen.
 		// As long as we do gui stuff on the bottom screen after this, this will work, but maybe
 		// not the best practice?
-		topScreen.updateAnimation(fb);
-		topScreen.update(fbTop);
+		//topScreen.updateAnimation(fb);
+		//topScreen.update(fbTop);
 
 		/*
 		if (animating) {

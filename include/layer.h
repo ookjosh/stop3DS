@@ -18,6 +18,7 @@ public:
 	void setZIndex(int index);
 
 	void drawPixel(int x, int y, Color c);
+	void drawLine(int x1, int y1, int x2, int y2, Color c);
 	void drawBlock4(int x, int y, Color c);
 
 private:
@@ -97,6 +98,105 @@ void Layer::drawPixel(int x, int y, Color c) {
 	canvas.at(pixelIndex) = c.b;
 	canvas.at(pixelIndex+1) = c.g;
 	canvas.at(pixelIndex+2) = c.r;
+}
+
+void Layer::drawLine(int x1, int y1, int x2, int y2, Color c) {
+
+	// Vertical lines
+	// 1. determine x2 == x1
+	// 2. find y2-y1. if negative step = -1, else 1
+	// 3. y1 + step
+	// 4. stop when y2 reached.
+
+	int rise, run;
+	int slope;
+	bool vertical = false;
+
+	if (x2 == x1) {
+		// Catch divide by zero.
+		vertical = true;
+		rise = (y2 - y1);
+
+	} else {
+		// Non vertical line so we get the slope.
+		// Verbose here for people unfamiliar.
+		rise = (y2 - y1);
+		run = (x2 - x1);
+		slope = rise/run;
+	}
+	
+	// Temporary coordinate variables in case we need to manipulate them.
+	// Especially for non vertical lines.
+	int currentX = x1;
+	int currentY = y1;
+	// The index of the pixel we are drawing.
+	int pixelIndex;
+
+	// Vertical lines have infinite slope so we handle them
+	// separately. The 'step' variable is to allow the points passed
+	// to be left to right or right to left (e.g (50,50) to (100, 50)
+	// vs (100, 50) to (50,50)).
+	if (vertical) {
+		int step = 1;
+		if (rise < 0) {
+			step = -1;
+		}
+
+		// Draws pixels in column.
+		for (int i = currentY; i != y2; i+= step) {
+
+			if (i > TOP_SCREEN_HEIGHT || i < 0) {
+				continue;
+			}
+			pixelIndex = (currentX)*240*3 - (i)*3;
+			// Check if index is valid.
+			if (pixelIndex < 0) pixelIndex = -1;
+			if (pixelIndex > 320*240*3) pixelIndex = -1;
+			if (pixelIndex < 0) {
+				// Not valid, on to next loop cycle
+				continue;
+			}
+
+			canvas[pixelIndex] = c.b;
+			canvas[pixelIndex+1] = c.g;
+			canvas[pixelIndex+2] = c.r;
+		}
+		return;
+	}
+
+	// Not vertical, so we do normal plotting
+	// Normal lines
+	// 1. Starting x and y
+	// 2. find slope
+	// 3. move in x direction one step at a time, increment y by slope
+	// 4. stop when x2,y2 reached.
+	int step = 1;
+	if (x2 < x1) step = -1;
+
+	for (int i = currentX; i != x2; i+= step) {
+
+		if (currentY > TOP_SCREEN_HEIGHT || currentY < 0) {
+			continue;
+		}
+
+			pixelIndex = (i)*240*3 - (currentY)*3;
+			// Check if valid index
+			if (pixelIndex < 0) pixelIndex = -1;
+			if (pixelIndex > 320*240*3) pixelIndex = -1;
+			if (pixelIndex < 0) {
+				// Out of bounds, on to next loop
+				continue;
+			}
+
+			canvas[pixelIndex] = c.b;
+			canvas[pixelIndex+1] = c.g;
+			canvas[pixelIndex+2] = c.r;
+
+		
+
+		currentY += slope;
+	}
+
 }
 
 void Layer::drawBlock4(int x, int y, Color color) {
