@@ -84,6 +84,7 @@ void Scene::setTicksPerFrame(int count) {
 	ticksPerFrame = count;
 }
 
+// Returns a reference to the frame of interest.
 Frame& Scene::getFrame(int index) {
 	if (index > frames.size()) {
 		// ERROR! TODO: handle this well.

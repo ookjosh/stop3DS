@@ -6,6 +6,7 @@
 
 #include "color.h"
 #include "animation.h"
+#include "gui.h"
 
 std::vector<std::vector<u8>> screenArr;
 
@@ -27,6 +28,7 @@ bool onionSkin = false;
 u8 color[3] = {(u8)0x7F, 0, (u8)0x7F};
 
 Animation currentAnimation;
+TopScreen topScreen;
 
 void drawPixel(u16 x, u16 y, Color c) {
 	int pixelIndex = x*240*3 - y*3;
@@ -56,7 +58,7 @@ void onionFrame(u8* frame) {
 
 int main(int argc, char **argv) {
 	gfxInitDefault();
-	consoleInit(GFX_TOP, NULL);
+	//consoleInit(GFX_TOP, NULL);
 
 	gfxSetDoubleBuffering(GFX_BOTTOM, true);
 
@@ -67,6 +69,8 @@ int main(int argc, char **argv) {
 
 	screenArr.push_back(funkyBuffer);
 
+	//topScreen.drawRect(50, 50, 100, 100, colorList.at(currentColor+4));
+	topScreen.drawLine(50,100, 50, 50, colorList.at(currentColor+5));
 
 	while (aptMainLoop()) {
 		hidScanInput();
@@ -147,9 +151,13 @@ int main(int argc, char **argv) {
 		printf("\x1b[10;0HR: %d, G: %d, B: %d", colorList.at(currentColor).r,
 		colorList.at(currentColor).g, colorList.at(currentColor).b);
 
-		//currentAnimation.getScene(0).getFrame(0).getLayer(0).drawPixel(touch.px, touch.py, colorList.at(currentColor));
+		currentAnimation.getScene(0).getFrame(0).getLayer(1).drawPixel(touch.px, touch.py, colorList.at(currentColor));
 
 		currentAnimation.update(fb);
+
+		u8* fbTop = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+
+		topScreen.update(fbTop);
 
 		/*
 		if (animating) {

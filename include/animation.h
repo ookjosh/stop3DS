@@ -42,6 +42,7 @@ u8* Animation::getFramebuffer() {
 	return frameBuffer;
 }
 
+// Returns a reference to the scene of interest.
 Scene& Animation::getScene(int index) {
 	if (index > scenes.size()) {
 		// Handle error here!
