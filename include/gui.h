@@ -10,6 +10,7 @@ class TopScreen {
 public:
 	TopScreen();
 	void update(u8* fb);
+	void updateAnimation(u8* frame);
 	void drawLine(int x1, int y1, int x2, int y2, Color c);
 	void drawRect(int x, int y, int w, int h, Color c);
 	void fillRect(int x, int y, int w, int h, Color c);
@@ -26,6 +27,17 @@ void TopScreen::update(u8* framebuffer) {
 	// Draw GUI icons and animation frame
 	for (int i = 0; i < canvas.size(); i++) {
 		framebuffer[i] = canvas[i];
+	}
+}
+
+void TopScreen::updateAnimation(u8* frame) {
+	// Draw current animation to our canvas.
+	// TODO: SUPPORT OTHER COLOR TYPES CORRECTLY.
+	// We have an offset of 40 pixels * 3 bpp
+	int offset = 240*40*3;//40*3;
+	const int imageWidth = 240*3;
+	for (int i = 0; i < COLOR_FULL_BYTES; i++) {
+		canvas[i+offset] = frame[i];
 	}
 }
 

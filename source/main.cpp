@@ -70,14 +70,8 @@ int main(int argc, char **argv) {
 	screenArr.push_back(funkyBuffer);
 
 	//topScreen.drawRect(50, 50, 100, 100, colorList.at(currentColor+4));
-	topScreen.drawLine(0,100, 50, 50, colorList.at(currentColor+5));
-	topScreen.drawLine(70,50, 70, 100, colorList.at(currentColor+5));
-	topScreen.drawLine(50, 100, 100, 50, colorList.at(currentColor+4));
-	topScreen.drawLine(50, 50, 100, 50, colorList.at(currentColor+3));
-	topScreen.drawLine(200, 50, 150, 25, colorList.at(currentColor+6));
-
-	topScreen.drawRect(300, 100, 150, 300, colorList.at(currentColor+2));
-	topScreen.fillRect(300,150,150, 300, colorList.at(currentColor+4));
+	topScreen.fillRect(0,0, 40, 240, colorList.at(currentColor+4));
+	topScreen.fillRect(360,0, 40, 240, colorList.at(currentColor+4));
 
 	while (aptMainLoop()) {
 		hidScanInput();
@@ -164,6 +158,11 @@ int main(int argc, char **argv) {
 
 		u8* fbTop = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
 
+		// So this is a lazy way of doing this. We populate the real framebuffer with the complete
+		// current frame and then pass that framebuffer as the "frame" data to the top screen.
+		// As long as we do gui stuff on the bottom screen after this, this will work, but maybe
+		// not the best practice?
+		topScreen.updateAnimation(fb);
 		topScreen.update(fbTop);
 
 		/*
