@@ -142,6 +142,7 @@ int main(int argc, char **argv) {
 		printf("\x1b[10;0HR: %d, G: %d, B: %d", colorList.at(currentColor).r,
 		colorList.at(currentColor).g, colorList.at(currentColor).b);
 
+		currentAnimation.getScene(0).getFrame(0).getLayer(0).drawPixel(touch.px, touch.py, colorList.at(currentColor));
 
 		currentAnimation.update(fb);
 

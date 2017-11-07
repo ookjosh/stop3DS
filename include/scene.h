@@ -17,6 +17,8 @@ public:
 	void setAnimating(bool anim);
 	void setTicksPerFrame(int count);
 
+	Frame getFrame(int index);
+
 private:
 	std::vector<Frame> frames;
 	unsigned int currentFrame = 0;
@@ -80,6 +82,14 @@ void Scene::setAnimating(bool anim) {
 // Updates scene's framerate.
 void Scene::setTicksPerFrame(int count) {
 	ticksPerFrame = count;
+}
+
+Frame Scene::getFrame(int index) {
+	if (index > frames.size()) {
+		// ERROR! TODO: handle this well.
+		return frames.at(0);
+	}
+	return frames.at(index);
 }
 
 #endif

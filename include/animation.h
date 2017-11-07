@@ -15,6 +15,7 @@ public:
 	Animation();
 	void update(u8* fb);
 	u8* getFramebuffer();
+	Scene getScene(int index);
 private:
 	std::vector<Scene> scenes;
 	unsigned int currentScene = 0;
@@ -27,7 +28,6 @@ private:
 // scene.
 Animation::Animation() {
 	scenes.push_back(Scene());
-
 }
 
 // Updates current frame.
@@ -42,7 +42,16 @@ u8* Animation::getFramebuffer() {
 	return frameBuffer;
 }
 
-
+Scene Animation::getScene(int index) {
+	if (index > scenes.size()) {
+		// Handle error here!
+		// Do I want to have a special Scene that
+		// can be checked against (return Error_Scene?)
+		// or just return a valid scene...?
+		return scenes.at(0);
+	}
+	return scenes.at(index);
+}
 
 
 #endif

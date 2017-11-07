@@ -4,6 +4,7 @@
 
 #include <3ds.h>
 #include <vector>
+#include "color.h"
 
 
 #define COLOR_16 0
@@ -25,6 +26,9 @@ public:
 	int getZIndex();
 	void setZIndex(int index);
 
+	void drawPixel(int x, int y, Color c);
+	void drawBlock4(int x, int y, Color c);
+
 private:
 	std::vector<u8> canvas;
 	int zIndex = 0;
@@ -45,7 +49,7 @@ Layer::Layer(int paletteType) {
 			canvas = std::vector<u8>(COLOR_FULL_BYTES, 0);
 			for (int i = 0; i < COLOR_FULL_BYTES; i++) {
 				if (i % 3 == 0)
-				canvas[i] = 0x7F;
+				canvas.at(i) = 0x7F;
 			}
 			break;
 		default:
@@ -68,5 +72,28 @@ int Layer::getZIndex() {
 void Layer::setZIndex(int index) {
 	zIndex = index;
 };
+
+// Draws a pixel at the specified coordinates
+// TODO: Support top screen
+void Layer::drawPixel(int x, int y, Color c) {
+	int pixelIndex = x*240*3 - y*3;
+	if (pixelIndex < 0 || pixelIndex > canvas.size()) {
+		// How do I want to handle this???
+		return;
+	}
+
+	printf("\nDRAWING AT %d, %d, %d\n", pixelIndex, c.b, c.r);
+
+	canvas.at(pixelIndex) = c.b;
+	canvas.at(pixelIndex+1) = c.g;
+	canvas.at(pixelIndex+2) = c.r;
+}
+
+void Layer::drawBlock4(int x, int y, Color color) {
+	drawPixel(x,y, color);
+	drawPixel(x,y+1, color);
+	drawPixel(x+1, y, color);
+	drawPixel(x+1, y+1, color);
+}
 
 #endif
