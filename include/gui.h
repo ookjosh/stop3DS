@@ -29,11 +29,15 @@ void TopScreen::update(u8* framebuffer) {
 	}
 }
 
-
-
 void TopScreen::drawLine(int x1, int y1, int x2, int y2, Color c) {
 
-	int rise, run;
+	// Vertical lines
+	// 1. determine x2 == x1
+	// 2. find y2-y1. if negative step = -1, else 1
+	// 3. y1 + step
+	// 4. stop when y2 reached.
+
+	int rise, run, slope;
 	bool vertical = false;
 
 	if (x2 == x1) {
@@ -42,19 +46,33 @@ void TopScreen::drawLine(int x1, int y1, int x2, int y2, Color c) {
 		rise = (y2 - y1);
 
 	} else {
+		// Non vertical line so we get the slope.
+		// Verbose here for people unfamiliar.
 		rise = (y2 - y1);
 		run = (x2 - x1);
+		slope = rise/run;
 	}
 	
+	// Temporary coordinate variables in case we need to manipulate them.
+	// Especially for non vertical lines.
 	int currentX = x1;
 	int currentY = y1;
+	// The index of the pixel we are drawing.
 	int pixelIndex;
 
-	// Working.
+	// Vertical lines have infinite slope so we handle them
+	// separately. The 'step' variable is to allow the points passed
+	// to be left to right or right to left (e.g (50,50) to (100, 50)
+	// vs (100, 50) to (50,50)).
 	if (vertical) {
+		int step = 1;
+		if (rise < 0) {
+			step = -1;
+		}
+
 		// Draws pixels in column.
-		for (int i = 0; i < rise; i++) {
-			pixelIndex = (currentX)*240*3 - (currentY+i)*3;
+		for (int i = currentY; i != y2; i+= step) {
+			pixelIndex = (currentX)*240*3 - (i)*3;
 			if (pixelIndex < 0) pixelIndex = 0;
 
 			canvas[pixelIndex] = c.b;
@@ -64,37 +82,26 @@ void TopScreen::drawLine(int x1, int y1, int x2, int y2, Color c) {
 		return;
 	}
 
+	// Not vertical, so we do normal plotting
+	// Normal lines
+	// 1. Starting x and y
+	// 2. find slope
+	// 3. move in x direction one step at a time, increment y by slope
+	// 4. stop when x2,y2 reached.
+	int step = 1;
+	if (x2 < x1) step = -1;
 
-	while (x2 - currentX > 0) {
-		pixelIndex = currentX*240*3 -currentY*3;
+	for (int i = currentX; i != x2; i+= step) {
+
+		pixelIndex = (i)*240*3 - (currentY)*3;
 		if (pixelIndex < 0) pixelIndex = 0;
 
 		canvas[pixelIndex] = c.b;
 		canvas[pixelIndex+1] = c.g;
 		canvas[pixelIndex+2] = c.r;
-		/*
-		for (int i = 0; i < rise; i++) {
-			pixelIndex = currentX*240*3 - (currentY+i)*3;
-			if (pixelIndex < 0) pixelIndex = 0;
 
-			canvas[pixelIndex] = c.b;
-			canvas[pixelIndex+1] = c.g;
-			canvas[pixelIndex+2] = c.r;
-		}*/
-		for (int i = 0; i < run; i++) {
-			pixelIndex = (currentX+i)*240*3 - (currentY+(i*rise/run))*3;
-			if (pixelIndex < 0) pixelIndex = 0;
-
-			canvas[pixelIndex] = c.b;
-			canvas[pixelIndex+1] = c.g;
-			canvas[pixelIndex+2] = c.r;
-		}
-
-		currentY += rise;
-		currentX += run;
-
-	};
-
+		currentY += slope;
+	}
 
 }
 
