@@ -1,4 +1,4 @@
-baseURL = "/stop3DS"
+baseURL = "https://ookjosh.github.io/stop3DS/"
 languageCode = "en-us"
 DefaultContentLanguage = "en"
 

@@ -3,4 +3,4 @@ citra
 *.3dsx
 *.smdh
 *.elf
-
+docs/hugo/docs*
