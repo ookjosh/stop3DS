@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docdock</title>
+    <link>/</link>
+    <description>Recent content on Docdock</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>/_header/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/_header/</guid>
+      <description>Stop3DS Docs</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Stop3DS is a small homebrew animation application developed for the 3DS console. It was created as an exercise in design and coding and is in active development.</description>
+    </item>
+    
+    <item>
+      <title>Advanced Features</title>
+      <link>/discussions/advancedfeatures/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/discussions/advancedfeatures/</guid>
+      <description>Overview There are many features I would consider &amp;ldquo;advanced&amp;rdquo; in that they go beyond a simple frame-by-frame drawing and animation app. These features include things such as &amp;ldquo;sprite&amp;rdquo; support, assets that can be manipulated and treated as objects (moved, transformed) without having to manually redraw everything. More interestingly this can lead to &amp;ldquo;smart animation&amp;rdquo; or sprites that react inputs from the user such as a fish reacting to food as seen in Bret Victor&amp;rsquo;s video &amp;ldquo;Stop drawing dead fish&amp;rdquo;.</description>
+    </item>
+    
+    <item>
+      <title>Animation Gallery</title>
+      <link>/features/gallery/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/gallery/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Data Structures</title>
+      <link>/discussions/datastructure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/discussions/datastructure/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Drawing</title>
+      <link>/features/drawing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/drawing/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Frame Compression</title>
+      <link>/features/framecompression/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/framecompression/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Framerate</title>
+      <link>/features/framerate/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/framerate/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Import/Export</title>
+      <link>/features/saveloadanimation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/saveloadanimation/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Onion Skinning</title>
+      <link>/features/onionskin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/onionskin/</guid>
+      <description>Overview Onion skinning is really important in creating animations and is fun. It derives from old hand animation techniques which used a transparent sheet to allow the animators to see the previous frame. On computers this is an alpha compositing problem.
+Progress I have a working basic version that displays the previous frame if it exists. Depending on a) if it is necessary and b) if it works well with UX it might be cool to be able to mark an alternate frame as the onion skin.</description>
+    </item>
+    
+    <item>
+      <title>Portable Code</title>
+      <link>/discussions/portablecode/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/discussions/portablecode/</guid>
+      <description> Overview Throughout the design of this project I am trying (and almost certainly failing) at making the codebase as portable as possible. By that I don&amp;rsquo;t mean that it should be able to target any device known to man, but I do hope that the structure is parsable and easy to follow and maintain.
+Progress </description>
+    </item>
+    
+    <item>
+      <title>Scrubbing</title>
+      <link>/features/scrubbing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/scrubbing/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Shared Assets</title>
+      <link>/features/assets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/assets/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>UI</title>
+      <link>/discussions/ui/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/discussions/ui/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>UX</title>
+      <link>/discussions/ux/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/discussions/ux/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Undo/Redo</title>
+      <link>/features/undoredo/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/undoredo/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+    <item>
+      <title>Web Features</title>
+      <link>/features/internet/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/features/internet/</guid>
+      <description> Overview Progress </description>
+    </item>
+    
+  </channel>
+</rss>

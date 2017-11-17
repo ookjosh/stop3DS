@@ -1,0 +1,3 @@
+# Stop3DS
+
+Stop3DS is a project started to give me the opportunity to mess around with a lot of things I find interesting: programming (with different paradigms), embedded/resource constrained targets, and human/machine interaction. By targetting the 3DS console as a homebrew application I limited myself to as little external help as possible outside of the homebrew toolchain provided. This project is meant to be a learning experience and highlights my struggles as much as any success. Take a look around for posts discussing my goals, approaches, and lessons learned. The code is available so please take a look if you are interested.

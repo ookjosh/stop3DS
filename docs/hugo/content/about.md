@@ -1,0 +1,1 @@
+Stop3DS is a small homebrew animation application developed for the 3DS console. It was created as an exercise in design and coding and is in active development.

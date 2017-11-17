@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/discussions/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/</loc>
+  </url>
+  
+  <url>
+    <loc>/snippets/</loc>
+  </url>
+  
+  <url>
+    <loc>/media/</loc>
+  </url>
+  
+  <url>
+    <loc>/_header/</loc>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+  </url>
+  
+  <url>
+    <loc>/discussions/advancedfeatures/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/gallery/</loc>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/discussions/datastructure/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/drawing/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/framecompression/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/framerate/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/saveloadanimation/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/onionskin/</loc>
+  </url>
+  
+  <url>
+    <loc>/discussions/portablecode/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/scrubbing/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/assets/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/discussions/ui/</loc>
+  </url>
+  
+  <url>
+    <loc>/discussions/ux/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/undoredo/</loc>
+  </url>
+  
+  <url>
+    <loc>/features/internet/</loc>
+  </url>
+  
+</urlset>

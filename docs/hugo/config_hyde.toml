@@ -1,0 +1,33 @@
+baseURL = "localhost"
+languageCode = "en-us"
+title = "Stop3DS"
+copyright = "(C) 2017 Joshua Carty (ookjosh)"
+theme = "hyde-y"
+
+paginate = 1
+paginatePath = "page"
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
+    code = "/:slug/"
+
+[taxonomies]
+    tag = "tags"
+    topic = "topics"
+
+[author]
+	name = "ookjosh"
+	email = "ookjosh@gmail.com"
+
+[params]
+	brand = "Stop3DS"
+	topline = "An animation coding exploration"
+	footline = "Thanks for looking. Hope it was informative."
+
+	sidebar = "left"
+
+	home = "Home"
+
+	highlight = "default"
+
+#publishDir = "docs"
