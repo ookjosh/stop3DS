@@ -1,0 +1,6 @@
+build/*
+citra
+*.3dsx
+*.smdh
+*.elf
+
