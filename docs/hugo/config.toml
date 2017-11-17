@@ -1,8 +1,8 @@
-baseURL = "/"
+baseURL = "/stop3DS"
 languageCode = "en-us"
 DefaultContentLanguage = "en"
 
-title = "Docdock"
+title = "Stop3DS"
 theme = "docdock"
 #themesdir = "themes"
 

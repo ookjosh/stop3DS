@@ -1,167 +1,167 @@
 [
 {
-	"uri": "/discussions/",
+	"uri": "/stop3DS/discussions/",
 	"title": "Discussions",
 	"tags": [],
 	"description": "",
 	"content": "A collection of comments and musings on problems and decisions during the development process.\n"
 },
 {
-	"uri": "/features/",
+	"uri": "/stop3DS/features/",
 	"title": "Feature Tracking",
 	"tags": [],
 	"description": "",
 	"content": "Herein lie ongoing details of the development of stop3DS\u0026rsquo; features.\n"
 },
 {
-	"uri": "/snippets/",
+	"uri": "/stop3DS/snippets/",
 	"title": "Snippets",
 	"tags": [],
 	"description": "",
 	"content": "Any discussions pertaining to specific code live here.\n"
 },
 {
-	"uri": "/media/",
+	"uri": "/stop3DS/media/",
 	"title": "Media",
 	"tags": [],
 	"description": "",
 	"content": " Screenshots from development "
 },
 {
-	"uri": "/_header/",
+	"uri": "/stop3DS/_header/",
 	"title": "",
 	"tags": [],
 	"description": "",
 	"content": "Stop3DS Docs\n"
 },
 {
-	"uri": "/",
+	"uri": "/stop3DS/",
 	"title": "",
 	"tags": [],
 	"description": "",
 	"content": " Stop3DS Stop3DS is a project started to give me the opportunity to mess around with a lot of things I find interesting: programming (with different paradigms), embedded/resource constrained targets, and human/machine interaction. By targetting the 3DS console as a homebrew application I limited myself to as little external help as possible outside of the homebrew toolchain provided. This project is meant to be a learning experience and highlights my struggles as much as any success. Take a look around for posts discussing my goals, approaches, and lessons learned. The code is available so please take a look if you are interested.\n"
 },
 {
-	"uri": "/about/",
+	"uri": "/stop3DS/about/",
 	"title": "",
 	"tags": [],
 	"description": "",
 	"content": "Stop3DS is a small homebrew animation application developed for the 3DS console. It was created as an exercise in design and coding and is in active development.\n"
 },
 {
-	"uri": "/discussions/advancedfeatures/",
+	"uri": "/stop3DS/discussions/advancedfeatures/",
 	"title": "Advanced Features",
 	"tags": [],
 	"description": "",
 	"content": " Overview There are many features I would consider \u0026ldquo;advanced\u0026rdquo; in that they go beyond a simple frame-by-frame drawing and animation app. These features include things such as \u0026ldquo;sprite\u0026rdquo; support, assets that can be manipulated and treated as objects (moved, transformed) without having to manually redraw everything. More interestingly this can lead to \u0026ldquo;smart animation\u0026rdquo; or sprites that react inputs from the user such as a fish reacting to food as seen in Bret Victor\u0026rsquo;s video \u0026ldquo;Stop drawing dead fish\u0026rdquo;. Taking this drawing application and allowing it to go beyond human input in small ways like this is an interesting potential path.\nProgress "
 },
 {
-	"uri": "/features/gallery/",
+	"uri": "/stop3DS/features/gallery/",
 	"title": "Animation Gallery",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/categories/",
+	"uri": "/stop3DS/categories/",
 	"title": "Categories",
 	"tags": [],
 	"description": "",
 	"content": ""
 },
 {
-	"uri": "/discussions/datastructure/",
+	"uri": "/stop3DS/discussions/datastructure/",
 	"title": "Data Structures",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/features/drawing/",
+	"uri": "/stop3DS/features/drawing/",
 	"title": "Drawing",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/features/framecompression/",
+	"uri": "/stop3DS/features/framecompression/",
 	"title": "Frame Compression",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/features/framerate/",
+	"uri": "/stop3DS/features/framerate/",
 	"title": "Framerate",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/features/saveloadanimation/",
+	"uri": "/stop3DS/features/saveloadanimation/",
 	"title": "Import/Export",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/features/onionskin/",
+	"uri": "/stop3DS/features/onionskin/",
 	"title": "Onion Skinning",
 	"tags": [],
 	"description": "",
 	"content": " Overview Onion skinning is really important in creating animations and is fun. It derives from old hand animation techniques which used a transparent sheet to allow the animators to see the previous frame. On computers this is an alpha compositing problem.\nProgress I have a working basic version that displays the previous frame if it exists. Depending on a) if it is necessary and b) if it works well with UX it might be cool to be able to mark an alternate frame as the onion skin.\n"
 },
 {
-	"uri": "/discussions/portablecode/",
+	"uri": "/stop3DS/discussions/portablecode/",
 	"title": "Portable Code",
 	"tags": [],
 	"description": "",
 	"content": " Overview Throughout the design of this project I am trying (and almost certainly failing) at making the codebase as portable as possible. By that I don\u0026rsquo;t mean that it should be able to target any device known to man, but I do hope that the structure is parsable and easy to follow and maintain.\nProgress "
 },
 {
-	"uri": "/features/scrubbing/",
+	"uri": "/stop3DS/features/scrubbing/",
 	"title": "Scrubbing",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/features/assets/",
+	"uri": "/stop3DS/features/assets/",
 	"title": "Shared Assets",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/tags/",
+	"uri": "/stop3DS/tags/",
 	"title": "Tags",
 	"tags": [],
 	"description": "",
 	"content": ""
 },
 {
-	"uri": "/discussions/ui/",
+	"uri": "/stop3DS/discussions/ui/",
 	"title": "UI",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/discussions/ux/",
+	"uri": "/stop3DS/discussions/ux/",
 	"title": "UX",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/features/undoredo/",
+	"uri": "/stop3DS/features/undoredo/",
 	"title": "Undo/Redo",
 	"tags": [],
 	"description": "",
 	"content": " Overview Progress "
 },
 {
-	"uri": "/features/internet/",
+	"uri": "/stop3DS/features/internet/",
 	"title": "Web Features",
 	"tags": [],
 	"description": "",

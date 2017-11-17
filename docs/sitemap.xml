@@ -3,101 +3,101 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/discussions/</loc>
+    <loc>/stop3DS/discussions/</loc>
   </url>
   
   <url>
-    <loc>/features/</loc>
+    <loc>/stop3DS/features/</loc>
   </url>
   
   <url>
-    <loc>/snippets/</loc>
+    <loc>/stop3DS/snippets/</loc>
   </url>
   
   <url>
-    <loc>/media/</loc>
+    <loc>/stop3DS/media/</loc>
   </url>
   
   <url>
-    <loc>/_header/</loc>
+    <loc>/stop3DS/_header/</loc>
   </url>
   
   <url>
-    <loc>/</loc>
+    <loc>/stop3DS/</loc>
   </url>
   
   <url>
-    <loc>/about/</loc>
+    <loc>/stop3DS/about/</loc>
   </url>
   
   <url>
-    <loc>/discussions/advancedfeatures/</loc>
+    <loc>/stop3DS/discussions/advancedfeatures/</loc>
   </url>
   
   <url>
-    <loc>/features/gallery/</loc>
+    <loc>/stop3DS/features/gallery/</loc>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>/stop3DS/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/discussions/datastructure/</loc>
+    <loc>/stop3DS/discussions/datastructure/</loc>
   </url>
   
   <url>
-    <loc>/features/drawing/</loc>
+    <loc>/stop3DS/features/drawing/</loc>
   </url>
   
   <url>
-    <loc>/features/framecompression/</loc>
+    <loc>/stop3DS/features/framecompression/</loc>
   </url>
   
   <url>
-    <loc>/features/framerate/</loc>
+    <loc>/stop3DS/features/framerate/</loc>
   </url>
   
   <url>
-    <loc>/features/saveloadanimation/</loc>
+    <loc>/stop3DS/features/saveloadanimation/</loc>
   </url>
   
   <url>
-    <loc>/features/onionskin/</loc>
+    <loc>/stop3DS/features/onionskin/</loc>
   </url>
   
   <url>
-    <loc>/discussions/portablecode/</loc>
+    <loc>/stop3DS/discussions/portablecode/</loc>
   </url>
   
   <url>
-    <loc>/features/scrubbing/</loc>
+    <loc>/stop3DS/features/scrubbing/</loc>
   </url>
   
   <url>
-    <loc>/features/assets/</loc>
+    <loc>/stop3DS/features/assets/</loc>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>/stop3DS/tags/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/discussions/ui/</loc>
+    <loc>/stop3DS/discussions/ui/</loc>
   </url>
   
   <url>
-    <loc>/discussions/ux/</loc>
+    <loc>/stop3DS/discussions/ux/</loc>
   </url>
   
   <url>
-    <loc>/features/undoredo/</loc>
+    <loc>/stop3DS/features/undoredo/</loc>
   </url>
   
   <url>
-    <loc>/features/internet/</loc>
+    <loc>/stop3DS/features/internet/</loc>
   </url>
   
 </urlset>
