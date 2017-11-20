@@ -3,6 +3,8 @@
 #include <string.h> // memcpy
 #include <vector>
 #include <malloc.h>
+#include <deque>
+#include <functional>
 
 #include "color.h"
 #include "animation.h"
@@ -32,6 +34,26 @@ TopScreen topScreen;
 
 bool touchLastTick = false;
 touchPosition oldTouch;
+
+std::deque<std::function<void()>> queue;
+auto fx = 10;
+
+// Just testing some functional aspects in c++.
+void functionalTest() {
+	// Don't need to capture fx unless it has automatic duration?
+	// Read up on that bit.
+	queue.push_back([] {printf("%d\n", fx*2);});
+	queue.push_back([] {printf("%d\n", fx*4);});
+	queue.push_back([] {printf("%d\n", fx*8);});
+
+	while (!queue.empty()) {
+		// Execute function at front of queue
+		queue.front()();
+		// Pop from queue once done.
+		queue.pop_front();
+	}
+}
+
 
 void drawPixel(u16 x, u16 y, Color c) {
 	int pixelIndex = x*240*3 - y*3;
@@ -166,6 +188,8 @@ int main(int argc, char **argv) {
 		// Update bottom framebuffer.
 		u8* fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
 		currentAnimation.update(fb);
+
+		functionalTest();
 
 		//u8* fbTop = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
 
