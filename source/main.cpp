@@ -10,6 +10,8 @@
 #include "animation.h"
 #include "gui.h"
 
+#include "appstate.h"
+
 std::vector<std::vector<u8>> screenArr;
 
 std::vector<u8> canvas(240*320*3, 0);
@@ -37,6 +39,9 @@ touchPosition oldTouch;
 
 std::deque<std::function<void()>> queue;
 auto fx = 10;
+
+GlobalState& g = GlobalState::getInstance();
+GlobalState& g2 = GlobalState::getInstance();
 
 // Just testing some functional aspects in c++.
 void functionalTest() {

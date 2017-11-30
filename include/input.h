@@ -1,5 +1,7 @@
 // Input.h
 
+#include "appstate.h"
+
 class InputManager {
 public:
 	InputManager();
@@ -19,19 +21,92 @@ InputManager::InputManager() {
 
 }
 
-void InputManager::update() {
+// Updates history of inputs then acts on them based on what
+// mode the app is in.
+void InputManager::update(int appMode) {
 	hidScanInput();
 	kDown = hidKeysDown();
 	hidTouchRead(&touch);
 
-	if (touch.px == 0 && touch.py == 0) {
-		touchLastTick = false;
+
+	if (kDown & KEY_UP) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+
+		}
 	}
 
-	if (touchLastTick) {
-		
+	if (kDown & KEY_LEFT) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+			
+		}
 	}
 
+	if (kDown & KEY_DOWN) {
+		if (MODE_DRAWING) {
 
+		} else if (MODE_MENU) {
+			
+		}
+	}
 
+	if (kDown & KEY_RIGHT) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+			
+		}
+	}
+
+	if (kDown & KEY_A) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+			
+		}
+	}
+
+	if (kDown & KEY_B) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+			
+		}
+	}
+
+	if (kDown & KEY_X) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+			
+		}
+	}
+
+	if (kDown & KEY_Y) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+			
+		}
+	}
+
+	if (kDown & KEY_L) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+			
+		}
+	}
+	
+	if (kDown & KEY_R) {
+		if (MODE_DRAWING) {
+
+		} else if (MODE_MENU) {
+			
+		}
+	}
 }
+
