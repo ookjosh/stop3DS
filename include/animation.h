@@ -33,7 +33,7 @@ Animation::Animation() {
 // Updates current frame.
 void Animation::update(u8* fb) {
 	frameBuffer = fb;
-	printf("Number of Scenes %d\n", scenes.size());
+	//printf("Number of Scenes %d\n", scenes.size());
 	scenes.at(currentScene).update(fb);
 };
 
@@ -51,7 +51,7 @@ Scene& Animation::getScene(int index) {
 		// or just return a valid scene...?
 		return scenes.at(0);
 	}
-	printf("got scene %d", index);
+	//printf("got scene %d", index);
 	return scenes.at(index);
 }
 

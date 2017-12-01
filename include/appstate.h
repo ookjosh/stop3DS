@@ -8,6 +8,9 @@
 #ifndef _APP_STATE_H
 #define _APP_STATE_H
 
+#include "animation.h"
+
+
 enum {
 	MODE_MENU,
 	MODE_DRAWING
@@ -24,6 +27,21 @@ public:
 
 	int x = 0;
 	int appMode = MODE_DRAWING;
+
+	// We use a pointer because it can be reassigned.
+	Animation* currentAnimation = NULL;
+	// Could easily be inside the Animation construct.
+	int currentScene = 0;
+	int currentFrame = 0;
+	int currentLayer = 0;
+
+
+	u8 currentColor = 0;
+	bool animating = false;
+	int fps_ticks = 5;
+	bool onionSkin = false;
+
+	bool exitApplication = false;
 
 	GlobalState(GlobalState const&) = delete; // Remain unimplemented
 	void operator=(GlobalState const&) = delete; // Remain unimplemented

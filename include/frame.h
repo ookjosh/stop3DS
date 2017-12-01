@@ -26,7 +26,7 @@ Frame::Frame() {
 };
 // Draws all of the layers contained in the layers vector.
 void Frame::draw(u8* fb) {
-	printf("Number of layers: %d\n", layers.size());
+	//printf("Number of layers: %d\n", layers.size());
 	for (std::vector<Layer>::iterator it = layers.begin(); it != layers.end(); ++it) {
 		it->draw(fb);
 	}
@@ -41,7 +41,6 @@ Layer& Frame::getLayer(int index) {
 	if (index > layers.size()) {
 		return layers.at(0);
 	}
-	printf("got layer %d", index);
 	return layers.at(index);
 }
 

@@ -29,7 +29,7 @@ private:
 
 Layer::Layer(int palType) {
 	// We are setting = to new vector because that lets us 
-	// fill with an initial value more succintly (vs resize etc)
+	// fill with an initial value more succinctly (vs resize etc)
 	switch (palType) {
 		case COLOR_16:
 			canvas = std::vector<u8>(COLOR_16_BYTES, 0);
@@ -41,10 +41,11 @@ Layer::Layer(int palType) {
 			break;
 		case COLOR_FULL:
 			canvas = std::vector<u8>(COLOR_FULL_BYTES, 0);
+			/*
 			for (int i = 0; i < COLOR_FULL_BYTES; i++) {
 				if (i % 3 == 0)
 				canvas.at(i) = 0x7F;
-			}
+			}*/
 
 			paletteType = palType;
 			break;
@@ -55,9 +56,38 @@ Layer::Layer(int palType) {
 
 // Draws layer to current framebuffer
 // TODO: Support transparency.
+// Framebuffer is full 320*240*3 bytes large, so we have to 
+// take that into account when filling correctly for the different
+// palette options.
 void Layer::draw(u8* framebuffer) {
 	for (int i = 0; i < canvas.size(); i++) {
-		framebuffer[i] = canvas[i];
+		switch(paletteType) {
+			case COLOR_FULL:
+				// 1 pixel = 3 elements in canvas
+				if (canvas[i] == 0 && canvas[i+1] == 0 && canvas[i+2] == 0) {
+					// Don't copy anything.
+					i+=2;
+				} else {
+					framebuffer[i] = canvas[i];
+					framebuffer[i+1] = canvas[i+1];
+					framebuffer[i+2] = canvas[i+2];
+					i+=2;
+				}
+				
+				break;
+			case COLOR_256:
+
+				break;
+
+			case COLOR_16:
+
+				break;
+
+			default:
+				printf("ERROR in Layer::draw\n");
+				break;
+		}
+		
 	}
 };
 
@@ -93,7 +123,7 @@ void Layer::drawPixel(int x, int y, Color c) {
 		return;
 	}
 
-	printf("\nDRAWING AT %d, %d, %d\n", pixelIndex, c.b, c.r);
+	//printf("\nDRAWING AT %d, %d, %d\n", pixelIndex, c.b, c.r);
 
 	canvas.at(pixelIndex) = c.b;
 	canvas.at(pixelIndex+1) = c.g;

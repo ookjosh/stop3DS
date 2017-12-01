@@ -33,7 +33,7 @@ Scene::Scene() {
 
 // Updates scene if necessary, passing current framebuffer.
 void Scene::update(u8* fb) {
-	printf("Number of frames: %d\n", frames.size());
+	//printf("Number of frames: %d\n", frames.size());
 	
 	if (ticks > ticksPerFrame) {
 		currentFrame++;
@@ -90,7 +90,6 @@ Frame& Scene::getFrame(int index) {
 		// ERROR! TODO: handle this well.
 		return frames.at(0);
 	}
-	printf("got frame %d", index);
 	return frames.at(index);
 }
 
