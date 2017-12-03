@@ -7,6 +7,7 @@
 #include "color.h"
 #include "globals.h"
 #include "appstate.h"
+//#include "geometry.h"
 
 
 class Layer {
@@ -18,7 +19,9 @@ public:
 	void setZIndex(int index);
 
 	void drawPixel(int x, int y, Color c);
+	void drawPixel(int x, int y, int index);
 	void drawLine(int x1, int y1, int x2, int y2, Color c);
+	void drawLine(int x1, int y1, int x2, int y2, int index);
 	void drawBlock4(int x, int y, Color c);
 
 private:
@@ -144,6 +147,17 @@ void Layer::drawPixel(int x, int y, Color c) {
 	canvas.at(pixelIndex+2) = c.r;
 }
 
+// Draws a pixel referring to a palette
+void Layer::drawPixel(int x, int y, int index) {
+	int pixelIndex = x*240*3 - y*3;
+	if (pixelIndex < 0 || pixelIndex > canvas.size()) {
+		// How do I want to handle this???
+		return;
+	}
+
+	canvas.at(pixelIndex) = index;
+}
+
 void Layer::drawLine(int x1, int y1, int x2, int y2, Color c) {
 
 	// Vertical lines
@@ -242,6 +256,13 @@ void Layer::drawLine(int x1, int y1, int x2, int y2, Color c) {
 	}
 
 }
+
+// Draws a line between (x1,y1) and (x2,y2) of palette color index.
+void Layer::drawLine(int x1, int y1, int x2, int y2, int index) {
+
+}
+
+
 
 void Layer::drawBlock4(int x, int y, Color color) {
 	drawPixel(x,y, color);
