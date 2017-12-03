@@ -8,6 +8,9 @@
 #ifndef _APP_STATE_H
 #define _APP_STATE_H
 
+// Fix where this goes if necessary?
+class Animation;
+
 #include "animation.h"
 #include "palette.h"
 

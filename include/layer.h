@@ -7,7 +7,7 @@
 #include "color.h"
 #include "globals.h"
 #include "appstate.h"
-//#include "geometry.h"
+#include "geometry.h"
 
 
 class Layer {
