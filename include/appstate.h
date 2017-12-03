@@ -9,6 +9,7 @@
 #define _APP_STATE_H
 
 #include "animation.h"
+#include "palette.h"
 
 
 enum {
@@ -35,6 +36,7 @@ public:
 	int currentFrame = 0;
 	int currentLayer = 0;
 
+	Palette gColors;
 
 	u8 currentColor = 0;
 	bool animating = false;

@@ -6,7 +6,7 @@
 #include <vector>
 #include "color.h"
 #include "globals.h"
-
+#include "appstate.h"
 
 
 class Layer {
@@ -25,6 +25,8 @@ private:
 	std::vector<u8> canvas;
 	int zIndex = 0;
 	int paletteType = 0;
+
+	GlobalState& gState = GlobalState::getInstance();
 };
 
 Layer::Layer(int palType) {
@@ -66,6 +68,7 @@ void Layer::draw(u8* framebuffer) {
 				// 1 pixel = 3 elements in canvas
 				if (canvas[i] == 0 && canvas[i+1] == 0 && canvas[i+2] == 0) {
 					// Don't copy anything.
+					// Increment by 2 more because 3 bytes per pixel.
 					i+=2;
 				} else {
 					framebuffer[i] = canvas[i];
@@ -76,6 +79,17 @@ void Layer::draw(u8* framebuffer) {
 				
 				break;
 			case COLOR_256:
+
+				if (canvas[i] == 0) {
+					// Transparent pixel, don't copy anthing
+				} else {
+					Color px = gState.gColors.getColor(canvas[i]);
+					framebuffer[i] = px.b;
+					framebuffer[i+1] = px.g;
+					framebuffer[i+2] = px.r;
+					// Don't do any additional increment because
+					// 1 byte per pixel.
+				}
 
 				break;
 

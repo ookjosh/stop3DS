@@ -30,9 +30,10 @@ InputManager input;
 
 int main(int argc, char **argv) {
 	gfxInitDefault();
-	consoleInit(GFX_TOP, NULL);
+	//consoleInit(GFX_TOP, NULL);
 
 	gfxSetDoubleBuffering(GFX_BOTTOM, true);
+	gfxSetDoubleBuffering(GFX_TOP, false);
 
 	// Initialize colors
 	initColors();
@@ -40,8 +41,8 @@ int main(int argc, char **argv) {
 	g.currentAnimation = &currentAnimation;
 
 	//topScreen.drawRect(50, 50, 100, 100, colorList.at(currentColor+4));
-	topScreen.fillRect(0,0, 40, 240, colorList.at(currentColor+4));
-	topScreen.fillRect(360,0, 40, 240, colorList.at(currentColor+4));
+	//topScreen.fillRect(0,0, 40, 240, colorList.at(g.currentColor+4));
+	//topScreen.fillRect(360,0, 40, 240, colorList.at(g.currentColor+4));
 
 	while (aptMainLoop()) {
 
@@ -53,11 +54,32 @@ int main(int argc, char **argv) {
 
 		// Update bottom framebuffer.
 		u8* fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-		// Clear fb first
-		// ESSENTIAL! Can move this into update function mebbe?
-		memset(fb, 0, 320*240*3);
 		currentAnimation.update(fb);
 		//currentAnimation.getScene(0).getFrame(0).getLayer(0).draw(fb);
+
+		u8* topfb = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+
+		/*
+		for (int i = 40; i < 50; i++) {
+			topScreen.drawCharacter((i)*8, 1, i);
+		}
+		
+		for (int i = 50; i < 100; i++) {
+			topScreen.drawCharacter((i-50)*8, 16, i);
+		}
+		for (int i = 100; i < 123; i++) {
+			topScreen.drawCharacter((i-100)*8, 32, i);
+		}
+		for (int i = 150; i < 256; i++) {
+			//topScreen.drawCharacter((i-150)*8, 48, i);
+		}
+
+		*/
+
+		topScreen.drawDemoGui();
+		
+		topScreen.update(topfb);
+
 
 		gfxFlushBuffers();
 		gfxSwapBuffers();

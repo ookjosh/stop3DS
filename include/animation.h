@@ -32,6 +32,10 @@ Animation::Animation() {
 
 // Updates current frame.
 void Animation::update(u8* fb) {
+	// Clear framebuffer
+	// ESSENTIAL! Needed for transparency stuff??
+	memset(fb, 0, 320*240*3);
+
 	frameBuffer = fb;
 	//printf("Number of Scenes %d\n", scenes.size());
 	scenes.at(currentScene).update(fb);

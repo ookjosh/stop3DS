@@ -21,8 +21,10 @@ private:
 
 // Constructor for frame class. Populates the layers vector.
 Frame::Frame() {
-	layers.push_back(Layer(COLOR_FULL));
-	layers.push_back(Layer(COLOR_FULL));
+	//layers.push_back(Layer(COLOR_FULL));
+	//layers.push_back(Layer(COLOR_FULL));
+	layers.push_back(Layer(COLOR_256));
+	layers.push_back(Layer(COLOR_256));
 };
 // Draws all of the layers contained in the layers vector.
 void Frame::draw(u8* fb) {

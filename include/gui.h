@@ -5,6 +5,10 @@
 // Top screen gui stuff... of sorts
 #include "globals.h"
 #include "color.h"
+#include "default_font.h"
+
+#include "appstate.h"
+#include <string>
 
 class TopScreen {
 public:
@@ -14,9 +18,13 @@ public:
 	void drawLine(int x1, int y1, int x2, int y2, Color c);
 	void drawRect(int x, int y, int w, int h, Color c);
 	void fillRect(int x, int y, int w, int h, Color c);
+	void drawCharacter(int x, int y, int index);
+	void drawString(int x, int y, std::string s);
+	void drawDemoGui();
 
 private:
 	std::vector<u8> canvas;
+	GlobalState& gState = GlobalState::getInstance();
 };
 
 TopScreen::TopScreen() {
@@ -180,6 +188,66 @@ void TopScreen::fillRect(int x, int y, int w, int h, Color c) {
 	}
 
 
+}
+
+// Draws character from font.
+void TopScreen::drawCharacter(int x, int y, int index) {
+	int cx = x;
+	int cy = y;
+
+	// Each glyph is 8x8, 8 bits * 8 bytes
+	for (int i = 0; i < 8; i++) {
+		char current = default_font_bin[index*8 + i];
+		for (int k = 8; k > 0; k--) {
+			int pixelIndex = cx*240*3 - cy*3;
+
+			bool bit = current>>k & 0x01;
+			if (bit) {
+				canvas[pixelIndex] = 0;
+				canvas[pixelIndex+1] = 64;
+				canvas[pixelIndex+2] = 255;		
+			} else {
+				//canvas[pixelIndex] = 0;
+				//canvas[pixelIndex+1] = 0;
+				//canvas[pixelIndex+2] = 0;
+			}
+
+			cx += 1;
+		}
+
+		// To make italic change this up or down 1 or 2
+		cx -=8;
+		cy += 1;
+		
+	}
+}
+
+void TopScreen::drawString(int x, int y, std::string s) {
+	int xOffset = 0;
+	for (std::string::iterator it = s.begin(); it != s.end(); ++it) {
+		drawCharacter((xOffset)+x, y, *it);
+		xOffset+=8;
+	}
+}
+
+void TopScreen::drawDemoGui() {
+	fillRect(0,1,400,320, colorList[1]);
+
+	fillRect(0,40,40,40, colorList[7]);
+	fillRect(0,80,40,40, colorList[6]);
+	fillRect(0,120,40,40, colorList[5]);
+	fillRect(0,160,40,40, colorList[4]);
+
+	drawCharacter(16, 48, 'R');
+	drawString(0, 64, "Clear");
+
+	fillRect(360, 40, 40, 40, gState.gColors.getColor(gState.currentColor));
+	drawString(360, 40, "Color");
+
+	drawString(360,224, "Layer:");
+	drawCharacter(360, 232, int_to_font(gState.currentLayer));
+
+	drawCharacter(240, 232, gState.gColors.size());
 }
 
 #endif

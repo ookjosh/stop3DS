@@ -60,7 +60,7 @@ void InputManager::handleKeys(u32 kDown) {
 
 	if (kDown & KEY_LEFT) {
 		if (MODE_DRAWING) {
-			if (globalState.currentColor > 1) {
+			if (globalState.currentColor > 0) {
 				globalState.currentColor--;
 			}
 		} else if (MODE_MENU) {
@@ -79,7 +79,7 @@ void InputManager::handleKeys(u32 kDown) {
 
 	if (kDown & KEY_RIGHT) {
 		if (MODE_DRAWING) {
-			if (globalState.currentColor < colorList.size()-1) {
+			if (globalState.currentColor < globalState.gColors.size()-1) {
 				globalState.currentColor++;
 			}
 		} else if (MODE_MENU) {
@@ -153,10 +153,10 @@ void InputManager::handleTouch(touchPosition touch) {
 		}
 
 		if (touchLastTick && touchThisTick) {
-			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawLine(touch.px, touch.py, oldTouch.px, oldTouch.py, colorList.at(globalState.currentColor));
+			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawLine(touch.px, touch.py, oldTouch.px, oldTouch.py, globalState.gColors.getColor(globalState.currentColor));
 			oldTouch = touch;
 		} else {
-			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawPixel(touch.px, touch.py, colorList.at(globalState.currentColor));	
+			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawPixel(touch.px, touch.py, globalState.gColors.getColor(globalState.currentColor));	
 			touchLastTick = touchThisTick;
 			oldTouch = touch;
 		}
