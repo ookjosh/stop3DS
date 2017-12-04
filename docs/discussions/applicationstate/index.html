@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="generator" content="Hugo 0.26" />
 
-<title>Portable Code :: Stop3DS</title>
+<title>Application State :: Stop3DS</title>
 <link rel="shortcut icon" href="/stop3DS/images/favicon.png" type="image/x-icon" />
 <link href="/stop3DS/css/nucleus.css" rel="stylesheet">
 <link href="/stop3DS/css/font-awesome.min.css" rel="stylesheet">
@@ -28,7 +28,7 @@
 
     
   </head>
-  <body data-url="/stop3DS/discussions/portablecode/">
+  <body data-url="/stop3DS/discussions/applicationstate/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="showVisitedLinks">
@@ -76,7 +76,7 @@
           <span>Advanced Features</span><i class="fa fa-circle-thin read-icon"></i>
         </a>
     </li>
-      <li data-nav-id="/stop3DS/discussions/applicationstate/" class="dd-item">
+      <li data-nav-id="/stop3DS/discussions/applicationstate/" class="dd-item active">
         <a href="/stop3DS/discussions/applicationstate/">
           <span>Application State</span><i class="fa fa-circle-thin read-icon"></i>
         </a>
@@ -86,7 +86,7 @@
           <span>Data Structures</span><i class="fa fa-circle-thin read-icon"></i>
         </a>
     </li>
-      <li data-nav-id="/stop3DS/discussions/portablecode/" class="dd-item active">
+      <li data-nav-id="/stop3DS/discussions/portablecode/" class="dd-item">
         <a href="/stop3DS/discussions/portablecode/">
           <span>Portable Code</span><i class="fa fa-circle-thin read-icon"></i>
         </a>
@@ -202,7 +202,7 @@
       
       
     <div id="top-github-link">
-      <a class="github-link" href="https://github.com/vjeantet/hugo-theme-docdock/edit/master/exampleSite/content/discussions/portablecode.md" target="blank">
+      <a class="github-link" href="https://github.com/vjeantet/hugo-theme-docdock/edit/master/exampleSite/content/discussions/applicationstate.md" target="blank">
         <i class="fa fa-code-fork"></i>
         Edit page
       </a>
@@ -222,7 +222,7 @@
 
 
 
- <a href='/stop3DS/'></a> > <a href='/stop3DS/discussions/'>Discussions</a> > Portable Code
+ <a href='/stop3DS/'></a> > <a href='/stop3DS/discussions/'>Discussions</a> > Application State
 
  
 
@@ -239,9 +239,15 @@
 <ul>
 <li>
 <ul>
-<li><a href="#overview">Overview</a>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#stop3ds-state">Stop3DS&rsquo; State</a>
 <ul>
-<li><a href="#progress">Progress</a></li>
+<li><a href="#top-level">Top level</a></li>
+<li><a href="#user-input">User input</a></li>
+<li><a href="#animation-state">Animation State</a>
+<ul>
+<li><a href="#state-mutability">State mutability</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -255,7 +261,7 @@
 
 <div id="body-inner">
   
-    <h1>Portable Code</h1>
+    <h1>Application State</h1>
   
 
 
@@ -267,9 +273,136 @@
 
 <h2 id="overview">Overview</h2>
 
-<p>Throughout the design of this project I am trying (and almost certainly failing) at making the codebase as portable as possible. By that I don&rsquo;t mean that it should be able to target any device known to man, but I do hope that the structure is parsable and easy to follow and maintain.</p>
+<p>Handling application state is an important and well discussed topic. Now I get to see what works well
+for this application.</p>
 
-<h3 id="progress">Progress</h3>
+<h2 id="stop3ds-state">Stop3DS&rsquo; State</h2>
+
+<p>What does this application have to track on a high level? Things such as current animation, current
+scene, current frame all seem like fair game. But why should knowledge of the current frame be anywhere
+outside of the Animation construct? Why should it be outside of the current Scene construct? To explore
+these questions let&rsquo;s break down the application.</p>
+
+<h3 id="top-level">Top level</h3>
+
+<p>Application Loop
+User Input
+Rendering
+Animation state</p>
+
+<p>The application loop and associated bits are what I would consider the &ldquo;top level&rdquo; of state hierarchy.
+Everything else depends on the loop existing in the first place and any data being passed through it.</p>
+
+<p>User input presents an interesting problem because it is important to abstract specific keycodes and
+such from absolute events. Keeping things generic and flexible will help keep the code portable but also
+much more maintainable.</p>
+
+<p>Rendering the still frames is also an interesting case when it comes to state because there are many ways
+that it is best to keep the rendering itself stateless and just have it functionally act on incoming data.</p>
+
+<p>Animation state is an important one to figure out because that is a large part of how the user input is
+going to interact with the application - starting/stopping, creating new frames/scenes/etc, touch input.
+Having a good plan for how this will be handled will help keep everything else in check and simpler to
+design.</p>
+
+<p>I think it&rsquo;s important to distinguish between &ldquo;Rendering&rdquo; a frame and the user editing a frame. I believe
+both should take on a functional aspect (in order to easily support undo/redo, etc) and also to consolidate
+data and associated state. The rendering process has no need to handle user input, but editing frames certainly
+does.</p>
+
+<h3 id="user-input">User input</h3>
+
+<p>I wonder if I could use a registration type setup for handling inputs. Each button would have a way to pass a
+function that is called whenever it is pressed for instance. This is used in many other cases (like .onClick)
+and would offer a way to dynamically alter a button&rsquo;s function without having a mess of state handling inside each
+button&rsquo;s code. This would make contextual UI much simpler and something I could explore.</p>
+
+<p>The question with this is if I can keep state from leaking from other places. I don&rsquo;t want the input code to somehow
+become tied to the state of the current frame or something like that, but I think as long as I design the interface
+correctly the chance of that is much less than some alternatives.</p>
+
+<p>In pseudo code, maybe something akin to this may be useful:</p>
+
+<pre><code>// Some accessible thing... where does this live?
+InputManager inputman;
+
+function doThingOne/Two/Three exist in local scope.
+int foo = 10; // also exists here
+
+// I need to read up on closures/scoping/lifetimes to appropriately
+// alter local state and keep it contained.
+inputman.registerButtonA(function(InputEvent event) {
+		switch(event) {
+			case BUTTON_DOWN:
+				doThingOne();
+				// Will this work like I expect?
+				// (print 11)
+				printf(&quot;My value: %d\n&quot;, foo+1);
+
+			case BUTTON_HELD:
+				doThingToThis(passedValue);
+
+			case BUTTON_RELEASED:
+				doThingThree();
+
+			default:
+
+		}
+	});
+
+</code></pre>
+
+<p>Then whenever the application changed to a different mode the UI could be updated simply, eliminating</p>
+
+<pre><code class="language-cpp">if (kDown &amp; BUTTON_A) {
+	switch (currentMode) {
+		case MODE_A:
+			&lt;too much stuff&gt;
+		case MODE_B:
+			&lt;too much stuff&gt;
+		case MODE_C:
+			&lt;too much stuff&gt;
+		case MODE_D:
+			&lt;too much stuff&gt;
+		case MODE_E:
+			&lt;too much stuff&gt;
+	}
+}
+</code></pre>
+
+<p>or something akin to that. Being able to drop in arbitrary functions sounds interesting. There is a potential problem if two
+things try to assign functionality at the same time (or expect their functionality to be active) but that sounds more like
+a mistake rather than fundamental flaw.</p>
+
+<h3 id="animation-state">Animation State</h3>
+
+<p>I believe for my first attempt I am going to utilize a method I have used in other projects (notably the robotic platform my company created) wherein there lies a single mutable structure that defines the application&rsquo;s state and everything is derived from that central store. This is also the method used by Endgame in their functionally reactive UI (<a href="https://www.endgame.com/blog/technical-blog/how-we-built-our-ui">https://www.endgame.com/blog/technical-blog/how-we-built-our-ui</a>), so given previous success with this method I believe it is appropriate to give it a try here. The key to making this implementation work cleanly and remain maintainable is limiting mutability of the state. In essence, part A should not be able to directly change aspects of part B directly, even if it theoretically has vision of part B&rsquo;s components. It is also important to have things react as a function of the state, rather than have the state be part of the function. For instance, the following pseudo-snippet shows a basic comparison:</p>
+
+<pre><code class="language-cpp">// Cleaner interaction
+void drawFrame(Frame frm, Destination output) {
+	/* Do my frame drawing routine */
+	output = frm.source; // basic idea
+}
+
+// Potentially unclear and untestable
+void drawFrame() {
+	/* Do my frame drawing routine */
+	// What is currentFrame/output and where did they come from?
+	// This is brittle and tied to the state structure as it exists 
+	// when the code was written.
+	output = currentFrame.source;
+}
+
+</code></pre>
+
+<p>In the first example we have context of all of the values being used thanks to the arguments passed, and we have an idea of what is going
+on when we call the function - <code>drawFrame(currentFrame, bottomScreen)</code> is clear in its meaning over <code>drawFrame()</code>. Where is the frame being drawn in the second function? What frame is it? Having a function like the first eliminates situations where you would otherwise have <code>drawCurrentFrameOnTopScreen()</code> and <code>drawLastFrameOnBottomScreen()</code> or <code>drawCurrentFrameToBuffer()</code>.</p>
+
+<p>That demonstrates how we can use the central state definition to <strong>derive</strong> presentation from the state, which is arguably a simpler problem than limiting the mutablility of the central state by different components. As stated above, this is an incredibly important design problem that makes or breaks this setup. So in this case I am going to limit state mutation to user inputs only.</p>
+
+<h4 id="state-mutability">State mutability</h4>
+
+<p>This application lives to react to user inputs. It is in many ways a dumb canvas, but even if it partakes in &ldquo;smart&rdquo; behaviors they are always a result of the user requesting them. As such, there should be no change to internal state outside of user input. Everything else that the system needs it should be able to derive from the results of these inputs.</p>
 
 
     
@@ -281,8 +414,8 @@
 </div>
 
 <div id="navigation">
-<a class="nav nav-prev" href="/stop3DS/discussions/datastructure/" title="Data Structures"> <i class="fa fa-chevron-left"></i></a>
-    <a class="nav nav-next" href="/stop3DS/discussions/ui/" title="UI" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a></div>
+<a class="nav nav-prev" href="/stop3DS/discussions/advancedfeatures/" title="Advanced Features"> <i class="fa fa-chevron-left"></i></a>
+    <a class="nav nav-next" href="/stop3DS/discussions/datastructure/" title="Data Structures" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">

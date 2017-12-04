@@ -75,6 +75,11 @@
           <span>Advanced Features</span><i class="fa fa-circle-thin read-icon"></i>
         </a>
     </li>
+      <li data-nav-id="/stop3DS/discussions/applicationstate/" class="dd-item">
+        <a href="/stop3DS/discussions/applicationstate/">
+          <span>Application State</span><i class="fa fa-circle-thin read-icon"></i>
+        </a>
+    </li>
       <li data-nav-id="/stop3DS/discussions/datastructure/" class="dd-item">
         <a href="/stop3DS/discussions/datastructure/">
           <span>Data Structures</span><i class="fa fa-circle-thin read-icon"></i>
@@ -169,9 +174,8 @@
 
 
         <section id="shortcuts">
-                <li class="" role=""><h3>More</h3><a href="https://github.com/vjeantet/hugo-theme-docdock" target="_blank" rel="noopener"><i class='fa fa-github'></i> Github repo</a></li>
+                <li class="" role=""><h3>More</h3><a href="https://github.com/ookjosh/stop3DS" target="_blank" rel="noopener"><i class='fa fa-github'></i> Github repo</a></li>
                 <li class="" role=""><a href="/stop3DS/showcase" target="_blank" rel="noopener"><i class='fa fa-camera'></i> Showcases</a></li>
-                <li class="" role=""><a href="https://gohugo.io/" target="_blank" rel="noopener"><i class='fa fa-bookmark'></i> Hugo Documentation</a></li>
                 <li class="" role=""><a href="/stop3DS/credits" target="_blank" rel="noopener"><i class='fa fa-bullhorn'></i> Credits</a></li>
         </section>
             <a id="clear-history" class="" href="#" data-clear-history-toggle=""><i class="fa  fa-history"></i> Clear History</a>
@@ -237,7 +241,10 @@
 <ul>
 <li><a href="#overview">Overview</a>
 <ul>
-<li><a href="#progress">Progress</a></li>
+<li><a href="#progress">Progress</a>
+<ul>
+<li><a href="#linear-interpolation">Linear Interpolation</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -264,6 +271,48 @@
 <h2 id="overview">Overview</h2>
 
 <h3 id="progress">Progress</h3>
+
+<h4 id="linear-interpolation">Linear Interpolation</h4>
+
+<p>As of commit <code>5405bdc5179bbccd01aca7139425e38cef068cfe</code> I have finally actually implemented a real &lsquo;LERP&rsquo; for user input. And my it makes a huge difference. Before then I had messed around with a very obtuse (intentionally naive we&rsquo;ll say) implementation that was both flawed and bloated. These images compare drawing with the two methods:</p>
+
+<div class="expand">
+    <div class="expand-label" style="cursor: pointer;" onclick="$h = $(this);$h.next('div').slideToggle(100,function () {$h.children('i').attr('class',function () {return $h.next('div').is(':visible') ? 'fa fa-chevron-down' : 'fa fa-chevron-right';});});">
+    	<i style="font-size:x-small;" class="fa fa-chevron-right"></i>
+    	<span>
+    	
+    	Old LERP
+    	
+    	</span>
+    </div>
+    <div class="expand-content" style="display: none;">
+<p><img src="/static/img/old_lerp.png" alt="Old thing" /></p>
+
+<p>.</p>
+
+    </div>
+</div>
+
+
+
+<p><div class="expand">
+    <div class="expand-label" style="cursor: pointer;" onclick="$h = $(this);$h.next('div').slideToggle(100,function () {$h.children('i').attr('class',function () {return $h.next('div').is(':visible') ? 'fa fa-chevron-down' : 'fa fa-chevron-right';});});">
+    	<i style="font-size:x-small;" class="fa fa-chevron-right"></i>
+    	<span>
+    	
+    	Better LERP
+    	
+    	</span>
+    </div>
+    <div class="expand-content" style="display: none;">
+<p><img src="/static/img/new_lerp.png" alt="New lerp" /></p>
+
+<p>.</p>
+
+    </div>
+</div>
+
+</p>
 
 
     
