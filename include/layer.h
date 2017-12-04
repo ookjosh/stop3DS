@@ -160,6 +160,16 @@ void Layer::drawPixel(int x, int y, int index) {
 
 void Layer::drawLine(int x1, int y1, int x2, int y2, Color c) {
 
+	std::vector<Point> points = line(Point({.x = x1, .y = y1}), Point({.x = x2, .y = y2}));
+	
+	//int distance = diagonalDistance(x1, y1, x2, y2);
+	//printf("Distance: %d\n", distance);
+
+	for (std::vector<Point>::iterator it = points.begin(); it != points.end(); ++it) {
+		drawPixel(it->x, it->y, c);
+	}
+
+	/*
 	// Vertical lines
 	// 1. determine x2 == x1
 	// 2. find y2-y1. if negative step = -1, else 1
@@ -254,7 +264,7 @@ void Layer::drawLine(int x1, int y1, int x2, int y2, Color c) {
 
 		currentY += slope;
 	}
-
+	*/
 }
 
 // Draws a line between (x1,y1) and (x2,y2) of palette color index.

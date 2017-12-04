@@ -146,20 +146,35 @@ void InputManager::handleTouch(touchPosition touch) {
 	if (MODE_DRAWING) {
 		//printf("\x1b[0;0HX: %d, Y: %d, %s\n", touch.px, touch.py, touchLastTick ? "true": "false");
 		bool touchThisTick = false;
-		if (touch.px == 0 && touch.py == 0) {
-			touchThisTick = false;
-		} else {
+		u32 held = keysHeld();
+		if (held & KEY_TOUCH || kDown & KEY_TOUCH) {
 			touchThisTick = true;
+			//printf("Touch\n");
+		}
+		currentTouchX = touch.px;
+		currentTouchY = touch.py;
+
+
+
+		//printf("Last: %d, Now: %d\n", touchLastTick, touchThisTick);
+
+		if (touchLastTick == touchThisTick && (oldTouchX == currentTouchX && oldTouchY == currentTouchY)) {
+			//printf("No change\n");
+			// No change, no need to draw anything.
+			//return;
 		}
 
 		if (touchLastTick && touchThisTick) {
-			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawLine(touch.px, touch.py, oldTouch.px, oldTouch.py, globalState.gColors.getColor(globalState.currentColor));
-			oldTouch = touch;
-		} else {
-			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawPixel(touch.px, touch.py, globalState.gColors.getColor(globalState.currentColor));	
-			touchLastTick = touchThisTick;
-			oldTouch = touch;
+			
+			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawLine(currentTouchX, currentTouchY, oldTouchX, oldTouchY, globalState.gColors.getColor(globalState.currentColor));
+		} else if (touchThisTick) {
+			printf("Dot\n");
+			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawPixel(currentTouchX, currentTouchY, globalState.gColors.getColor(globalState.currentColor));	
 		}
+
+		touchLastTick = touchThisTick;
+		oldTouchX = currentTouchX;
+		oldTouchY = currentTouchY;
 
 	} else if (MODE_MENU) {
 

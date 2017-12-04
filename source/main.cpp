@@ -59,23 +59,6 @@ int main(int argc, char **argv) {
 
 		u8* topfb = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
 
-		/*
-		for (int i = 40; i < 50; i++) {
-			topScreen.drawCharacter((i)*8, 1, i);
-		}
-		
-		for (int i = 50; i < 100; i++) {
-			topScreen.drawCharacter((i-50)*8, 16, i);
-		}
-		for (int i = 100; i < 123; i++) {
-			topScreen.drawCharacter((i-100)*8, 32, i);
-		}
-		for (int i = 150; i < 256; i++) {
-			//topScreen.drawCharacter((i-150)*8, 48, i);
-		}
-
-		*/
-
 		topScreen.drawDemoGui();
 		
 		topScreen.update(topfb);
