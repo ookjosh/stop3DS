@@ -23,6 +23,7 @@ public:
 	void drawLine(int x1, int y1, int x2, int y2, Color c);
 	void drawLine(int x1, int y1, int x2, int y2, int index);
 	void drawBlock4(int x, int y, Color c);
+	void drawBlock4(int x, int y, int index);
 
 private:
 	std::vector<u8> canvas;
@@ -65,7 +66,14 @@ Layer::Layer(int palType) {
 // take that into account when filling correctly for the different
 // palette options.
 void Layer::draw(u8* framebuffer) {
-	for (int i = 0; i < canvas.size(); i++) {
+	//for (int i = 0; i < canvas.size(); i++) {
+
+	int debugCount = 0;
+	int debugCount2 = 0;
+	for (int i =  0; i < COLOR_FULL_BYTES; i++) {
+
+		// Forward declaration of paletted index ahead of switch
+		int pIndex = 0;
 		switch(paletteType) {
 			case COLOR_FULL:
 				// 1 pixel = 3 elements in canvas
@@ -83,16 +91,22 @@ void Layer::draw(u8* framebuffer) {
 				break;
 			case COLOR_256:
 
-				if (canvas[i] == 0) {
+				if (canvas[i/3] == 0) {
 					// Transparent pixel, don't copy anthing
+					i+=2;
+					pIndex += 1;
+					debugCount += 1;
 				} else {
-					Color px = gState.gColors.getColor(canvas[i]);
+					Color px = gState.gColors.getColor(canvas[i/3]);
 					framebuffer[i] = px.b;
 					framebuffer[i+1] = px.g;
 					framebuffer[i+2] = px.r;
-					// Don't do any additional increment because
-					// 1 byte per pixel.
+					i+=2;
+					pIndex += 1;
+					debugCount2 += 1;
 				}
+
+				
 
 				break;
 
@@ -106,6 +120,8 @@ void Layer::draw(u8* framebuffer) {
 		}
 		
 	}
+
+	printf("Debug 1: %d, %d\n", debugCount, debugCount2);
 };
 
 void Layer::clear() {
@@ -149,15 +165,16 @@ void Layer::drawPixel(int x, int y, Color c) {
 
 // Draws a pixel referring to a palette
 void Layer::drawPixel(int x, int y, int index) {
-	int pixelIndex = x*240*3 - y*3;
-	if (pixelIndex < 0 || pixelIndex > canvas.size()) {
-		// How do I want to handle this???
-		return;
-	}
+	int pixelIndex = 0;
 
 	switch (paletteType) {
 		case COLOR_FULL:
 			{
+				pixelIndex = x*240*3 - y*3;
+				if (pixelIndex < 0 || pixelIndex > canvas.size()) {
+					// How do I want to handle this???
+					return;
+				}
 				Color c = gState.gColors.getColor(index);
 				canvas.at(pixelIndex) = c.b;
 				canvas.at(pixelIndex+1) = c.g;
@@ -165,7 +182,11 @@ void Layer::drawPixel(int x, int y, int index) {
 			}
 			break;
 		case COLOR_256:
-			pixelIndex = x*240 - y*3;
+			pixelIndex = x*240 - y;
+			if (pixelIndex < 0 || pixelIndex > canvas.size()) {
+				// How do I want to handle this???
+				return;
+			}
 			canvas.at(pixelIndex) = index;
 			break;
 		case COLOR_16:
@@ -200,6 +221,13 @@ void Layer::drawBlock4(int x, int y, Color color) {
 	drawPixel(x,y+1, color);
 	drawPixel(x+1, y, color);
 	drawPixel(x+1, y+1, color);
+}
+
+void Layer::drawBlock4(int x, int y, int index) {
+	drawPixel(x,y, index);
+	drawPixel(x,y+1, index);
+	drawPixel(x+1, y, index);
+	drawPixel(x+1, y+1, index);
 }
 
 #endif
