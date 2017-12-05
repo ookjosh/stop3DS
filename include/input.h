@@ -166,10 +166,10 @@ void InputManager::handleTouch(touchPosition touch) {
 
 		if (touchLastTick && touchThisTick) {
 			
-			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawLine(currentTouchX, currentTouchY, oldTouchX, oldTouchY, globalState.gColors.getColor(globalState.currentColor));
+			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawLine(currentTouchX, currentTouchY, oldTouchX, oldTouchY, globalState.currentColor);
 		} else if (touchThisTick) {
 			printf("Dot\n");
-			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawPixel(currentTouchX, currentTouchY, globalState.gColors.getColor(globalState.currentColor));	
+			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawPixel(currentTouchX, currentTouchY, globalState.currentColor);	
 		}
 
 		touchLastTick = touchThisTick;
