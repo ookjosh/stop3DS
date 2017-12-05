@@ -20,8 +20,9 @@ public:
 
 	void drawPixel(int x, int y, Color c);
 	void drawPixel(int x, int y, int index);
+	void drawPixel(int x, int y, int size, int index);
 	void drawLine(int x1, int y1, int x2, int y2, Color c);
-	void drawLine(int x1, int y1, int x2, int y2, int index);
+	void drawLine(int x1, int y1, int x2, int y2, int size, int index);
 	void drawBlock4(int x, int y, Color c);
 	void drawBlock4(int x, int y, int index);
 
@@ -195,6 +196,20 @@ void Layer::drawPixel(int x, int y, int index) {
 	}
 }
 
+void Layer::drawPixel(int x, int y, int size, int index) {
+	if (size > 1) {
+		for (int i = 0; i < size; i++) {
+			drawPixel(x, y, index);
+			drawPixel(x, y+i, index);
+			drawPixel(x+i, y, index);
+			drawPixel(x+i, y+i, index);
+		}	
+	} else {
+		drawPixel(x, y, index);
+	}
+	
+}
+
 void Layer::drawLine(int x1, int y1, int x2, int y2, Color c) {
 
 	std::vector<Point> points = line(Point({.x = x1, .y = y1}), Point({.x = x2, .y = y2}));
@@ -206,11 +221,11 @@ void Layer::drawLine(int x1, int y1, int x2, int y2, Color c) {
 }
 
 // Draws a line between (x1,y1) and (x2,y2) of palette color index.
-void Layer::drawLine(int x1, int y1, int x2, int y2, int index) {
+void Layer::drawLine(int x1, int y1, int x2, int y2, int size, int index) {
 	std::vector<Point> points = line(Point({.x = x1, .y = y1}), Point({.x = x2, .y = y2}));
 	
 	for (std::vector<Point>::iterator it = points.begin(); it != points.end(); ++it) {
-		drawPixel(it->x, it->y, index);
+		drawPixel(it->x, it->y, size, index);
 	}
 }
 
