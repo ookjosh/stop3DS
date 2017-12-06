@@ -365,13 +365,39 @@ void Layer::floodIterative(int x, int y, int current_index, int target_index) {
 			auto getIndex = [](int x, int y) {return (x*240 - y) > 0 ? (x*240-y) : 0; };
 
 			
+			cx = getX(inProgress.front()-240);
+			cy = getY(inProgress.front());
+			pixelIndex = getIndex(cx, cy);
+			//printf("X: %d\n", pixelIndex);
+			
+			if (canvas[pixelIndex] == current_index && cx > 0) {
+				inProgress.push(pixelIndex);
+				//flood.push_back(pixelIndex);
+				canvas[pixelIndex] = target_index;
+				//printf("L %d %d %d %d\n", cx, cy, x, y);
+			}
+			
+			cx = getX(inProgress.front()+240);
+			cy = getY(inProgress.front());
+			pixelIndex = getIndex(cx, cy);
+			//printf("cx: %d\n", cx);
+
+			if (canvas[pixelIndex] == current_index && cx < 320) {
+				inProgress.push(pixelIndex);
+				//flood.push_back(pixelIndex);
+				canvas[pixelIndex] = target_index;
+				//printf("R %d %d %d %d\n", cx, cy, x, y);
+
+			}
+			
+			
 			cx = getX(inProgress.front());
 			cy = getY(inProgress.front()+1);
 			pixelIndex = getIndex(cx, cy);
 
-			if (canvas[pixelIndex] == current_index && cy < 240) {
+			if (canvas[pixelIndex] == current_index && cy > 1) {
 				inProgress.push(pixelIndex);
-				flood.push_back(pixelIndex);
+				//flood.push_back(pixelIndex);
 				canvas[pixelIndex] = target_index;
 			}
 			
@@ -379,32 +405,11 @@ void Layer::floodIterative(int x, int y, int current_index, int target_index) {
 			cy = getY(inProgress.front()-1);
 			pixelIndex = getIndex(cx, cy);
 			
-			if (canvas[pixelIndex] == current_index && cy > 0) {
+			if (canvas[pixelIndex] == current_index && cy < 240) {
 				inProgress.push(pixelIndex);
-				flood.push_back(pixelIndex);
+				//flood.push_back(pixelIndex);
 				canvas[pixelIndex] = target_index;
 			
-			}
-			
-			cx = getX(inProgress.front()+1);
-			cy = getY(inProgress.front());
-			pixelIndex = getIndex(cx, cy);
-
-			if (canvas[pixelIndex] == current_index && cx < 320) {
-				inProgress.push(pixelIndex);
-				flood.push_back(pixelIndex);
-				canvas[pixelIndex] = target_index;
-			}
-			
-			
-			cx = getX(inProgress.front()-1);
-			cy = getY(inProgress.front());
-			pixelIndex = getIndex(cx, cy);
-			//printf("X: %d\n", pixelIndex);
-			if (canvas[pixelIndex] == current_index && cx > 0) {
-				inProgress.push(pixelIndex);
-				flood.push_back(pixelIndex);
-				canvas[pixelIndex] = target_index;
 			}
 			
 			inProgress.pop();
