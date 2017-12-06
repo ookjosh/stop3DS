@@ -204,12 +204,15 @@ void Layer::drawPixel(int x, int y, int index) {
 
 void Layer::drawPixel(int x, int y, int size, int index) {
 	if (size > 1) {
-		for (int i = 0; i < size; i++) {
-			drawPixel(x, y, index);
-			drawPixel(x, y+i, index);
-			drawPixel(x+i, y, index);
-			drawPixel(x+i, y+i, index);
-		}	
+		for (int k = 0; k < size; k++) {
+			for (int i = 0; i < size; i++) {
+				drawPixel(x+i, y+k, index);
+				//drawPixel(x, y+i, index);
+				//drawPixel(x+i, y, index);
+				//drawPixel(x+i, y+i, index);
+			}	
+		}
+			
 	} else {
 		drawPixel(x, y, index);
 	}
