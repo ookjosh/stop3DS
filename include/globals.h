@@ -16,4 +16,10 @@
 #define TOP_SCREEN_WIDTH 400
 #define TOP_SCREEN_HEIGHT 240
 
+/* To get coords from pixel index
+// +1 to make up for rounding error down (seems to always
+// work?)
+int getX = (pixelIndex) / 240 + 1;
+int getY = 240 - (pixelIndex % 240);
+*/
 #endif

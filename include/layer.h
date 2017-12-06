@@ -4,6 +4,7 @@
 
 #include <3ds.h>
 #include <vector>
+#include <queue>
 #include "color.h"
 #include "globals.h"
 #include "appstate.h"
@@ -26,12 +27,18 @@ public:
 	void drawBlock4(int x, int y, Color c);
 	void drawBlock4(int x, int y, int index);
 
+	void floodFill(int x, int y, int index);
+	void floodIterative(int x, int y, int current_index, int target_index);
+
 private:
 	std::vector<u8> canvas;
 	int zIndex = 0;
 	int paletteType = 0;
 
 	GlobalState& gState = GlobalState::getInstance();
+
+	void floodRecursion(int x, int y, int index, std::vector<int>& list);
+	void floodRecursion(int x, int y, int current_index, int target_index);
 };
 
 Layer::Layer(int palType) {
@@ -122,7 +129,6 @@ void Layer::draw(u8* framebuffer) {
 		
 	}
 
-	printf("Debug 1: %d, %d\n", debugCount, debugCount2);
 };
 
 void Layer::clear() {
@@ -243,6 +249,173 @@ void Layer::drawBlock4(int x, int y, int index) {
 	drawPixel(x,y+1, index);
 	drawPixel(x+1, y, index);
 	drawPixel(x+1, y+1, index);
+}
+
+
+// Only implemented for 256 colors atm.
+void Layer::floodFill(int x, int y, int index) {
+	/*
+		1. Get pixel index for coord
+		2. Check that pixels color
+		3. If color != index, continue
+		4. Change that color to index
+		5. Check each adjacent pixel
+			a. If same as original color add to list
+			b. Repeat 5 for each that does so
+		6. Once list is complete, iterate through it
+		   drawing each pixel = index.
+	*/
+	int pixelIndex = x*240 - y;
+	int original = canvas[pixelIndex];
+	if (original == index) return;
+
+	floodIterative(x,y,original,index);
+	/*
+	// Allocate full size so we don't have to realloc
+	std::vector<int> pixelsToChange;
+	pixelsToChange.reserve(320*240);
+	int pixelIndex = x*240 - y;
+	if (pixelIndex < 0 || pixelIndex > canvas.size()) {
+				// How do I want to handle this???
+				return;
+	}
+	int originalColor = canvas[pixelIndex];
+	if (originalColor == index) {
+		// Already target color so don't worry.
+		return;
+	}
+
+	floodRecursion(x,y, originalColor, index);
+	//floodRecursion(x, y, originalColor, pixelsToChange);
+
+	for (std::vector<int>::iterator it = pixelsToChange.begin(); it != pixelsToChange.end(); ++it) {
+		//canvas[*it] = index;
+	}
+	*/
+
+}
+
+
+// Checks pixel (x,y) to see if it matches color "target_index", if so adds to
+// list and recursively checks surrounding pixels.
+void Layer::floodRecursion(int x, int y, int target_index, std::vector<int>& list) {
+	if(x < 0 || x > 320 || y < 0 || y > 240) {
+		return;
+	}
+	printf("R: %d, %d, %d\n", x, y, list.size());
+	int pixelIndex = x*240 - y;
+	if (pixelIndex < 0 || pixelIndex > canvas.size()) {
+				// How do I want to handle this???
+				return;
+	}
+
+	if (canvas[pixelIndex] == target_index) {
+		list.push_back(pixelIndex);
+		floodRecursion(x+1, y, target_index, list);
+		//floodRecursion(x-1, y, target_index, list);
+		//floodRecursion(x, y+1, target_index, list);
+		floodRecursion(x, y-1, target_index, list);
+	}
+
+}
+
+void Layer::floodRecursion(int x, int y, int current_index, int target_index) {
+	printf("R: %d, %d, %d\n", x, y, current_index);
+	if(x < 0 || x > 320 || y < 0 || y > 240) {
+		return;
+	}
+	int pixelIndex = x*240 - y;
+	if (pixelIndex < 0 || pixelIndex > canvas.size()) {
+				// How do I want to handle this???
+				return;
+	}
+
+	if (canvas[pixelIndex] == current_index) {
+		canvas[pixelIndex] = target_index;
+		floodRecursion(x+1, y, current_index, target_index);
+		floodRecursion(x-1, y, current_index, target_index);
+		floodRecursion(x, y+1, current_index, target_index);
+		//floodRecursion(x, y-1, current_index, target_index);
+	}
+
+}
+
+void Layer::floodIterative(int x, int y, int current_index, int target_index) {
+	
+	std::queue<int> inProgress;
+	std::vector<int> flood;
+
+	flood.reserve(320*240);
+
+	int cx = x;
+	int cy = y;
+
+	int pixelIndex = cx*240 - cy;
+
+	
+	//int getX = (pixelIndex) / 240 + 1;
+	//int getY = 240 - (pixelIndex % 240);
+	// Start our queue.
+	inProgress.push(pixelIndex);
+	
+	while (!inProgress.empty()) {
+			//if (canvas[(cx+1)*240 - cy] == current_index) {
+			auto getX = [](int index) { return (index) / 240 + 1; };
+			auto getY = [](int index) { return 240 - (index % 240);};
+			auto getIndex = [](int x, int y) {return (x*240 - y) > 0 ? (x*240-y) : 0; };
+
+			
+			cx = getX(inProgress.front());
+			cy = getY(inProgress.front()+1);
+			pixelIndex = getIndex(cx, cy);
+
+			if (canvas[pixelIndex] == current_index && cy < 240) {
+				inProgress.push(pixelIndex);
+				flood.push_back(pixelIndex);
+				canvas[pixelIndex] = target_index;
+			}
+			
+			cx = getX(inProgress.front());
+			cy = getY(inProgress.front()-1);
+			pixelIndex = getIndex(cx, cy);
+			
+			if (canvas[pixelIndex] == current_index && cy > 0) {
+				inProgress.push(pixelIndex);
+				flood.push_back(pixelIndex);
+				canvas[pixelIndex] = target_index;
+			
+			}
+			
+			cx = getX(inProgress.front()+1);
+			cy = getY(inProgress.front());
+			pixelIndex = getIndex(cx, cy);
+
+			if (canvas[pixelIndex] == current_index && cx < 320) {
+				inProgress.push(pixelIndex);
+				flood.push_back(pixelIndex);
+				canvas[pixelIndex] = target_index;
+			}
+			
+			
+			cx = getX(inProgress.front()-1);
+			cy = getY(inProgress.front());
+			pixelIndex = getIndex(cx, cy);
+			//printf("X: %d\n", pixelIndex);
+			if (canvas[pixelIndex] == current_index && cx > 0) {
+				inProgress.push(pixelIndex);
+				flood.push_back(pixelIndex);
+				canvas[pixelIndex] = target_index;
+			}
+			
+			inProgress.pop();
+			//printf("P: %d\n", inProgress.size());
+	}
+	/*
+	for (std::vector<int>::iterator it = flood.begin(); it != flood.end(); ++it) {
+		if (*it < 1 || *it > canvas.size() - 1) continue;
+		canvas[*it] = target_index;
+	}*/
+
 }
 
 #endif
