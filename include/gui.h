@@ -261,26 +261,49 @@ void TopScreen::drawDemoGui() {
 	drawString(360,224, "Layer:");
 	drawCharacter(360, 232, int_to_font(gState.currentLayer));
 
-	//drawCharacter(240, 232, gState.gColors.size());
-	/*
+	// Draw menu items.
 	for (int i = 0; i < menu.size(); i++) {
-		drawString(100, i*8, menu.at(i).getName());
-		if (menu.at(i).hasSubMenu()) {
-			for (int k = 0; k < menu.at(i).getSubMenu().size(); k++) {
-				drawString(140 + k*40, i*8, menu.at(i).getSubMenu().at(k).getName());
+		if (i == gState.topMenu && gState.subMenu < 0) {
+			// Highlight selected top menu item if no submenu
+			drawMenuBox(45+45*i, 195, 28);
+		} else {
+			// Draw top menu box normal
+			drawMenuBox(45+45*i, 195, 16);
+
+			// Draw submenu with highlighting
+			if (menu.at(gState.topMenu).hasSubMenu()) {
+				for (int k = 0; k < menu.at(i).getSubMenu().size(); k++) {
+					if (k == gState.subMenu) {
+						drawMenuBox(45+45*i, 150-k*45, 28);
+					} else {
+						drawMenuBox(45+45*i, 150-k*45, 22);	
+					}
+					
+					drawString(45+45*i, 150-k*45, menu.at(i).getSubMenu().at(k).getName());
+				}
 			}
 		}
-	}*/
-	for (int i = 0; i < menu.size(); i++) {
-		drawMenuBox(45+45*i, 195, 16);
+
 		drawString(45+45*i, 200, menu.at(i).getName());
-		if (menu.at(i).hasSubMenu()) {
-			for (int k = 0; k < menu.at(i).getSubMenu().size(); k++) {
-				drawMenuBox(45+45*i, 150-k*45, 22);
-				drawString(45+45*i, 150-k*45, menu.at(i).getSubMenu().at(k).getName());
-			}
-		}
+
 	}
+
+	// Update menu state. I don't like this but it could be ok...
+	if (gState.topMenu > menu.size() - 1) {
+		gState.topMenu = menu.size() - 1;
+	}
+	if (gState.topMenu < 0) {
+		gState.topMenu = 0;
+	}
+
+	if (gState.subMenu < -1) {
+		gState.subMenu = -1;
+	}
+	if (gState.subMenu > menu.at(gState.topMenu).getSubMenu().size() - 1) {
+		gState.subMenu = menu.at(gState.topMenu).getSubMenu().size() - 1;
+	}
+
+	gState.hasSubMenu = menu.at(gState.topMenu).hasSubMenu();
 
 }
 

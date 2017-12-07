@@ -50,6 +50,10 @@ public:
 
 	bool exitApplication = false;
 
+	int topMenu = 0;
+	int subMenu = -1;
+	bool hasSubMenu = false;
+
 	GlobalState(GlobalState const&) = delete; // Remain unimplemented
 	void operator=(GlobalState const&) = delete; // Remain unimplemented
 private:
