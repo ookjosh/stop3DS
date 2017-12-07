@@ -106,7 +106,9 @@ void InputManager::handleKeys(u32 kDown) {
 
 	if (kDown & KEY_X) {
 		if (MODE_DRAWING) {
-			globalState.fps_ticks -= 5;
+			//globalState.fps_ticks -= 5;
+			globalState.addFrame = true;
+			globalState.currentFrame++;
 
 		} else if (MODE_MENU) {
 			
@@ -115,8 +117,11 @@ void InputManager::handleKeys(u32 kDown) {
 
 	if (kDown & KEY_Y) {
 		if (MODE_DRAWING) {
-			globalState.fps_ticks += 5;
-
+			//globalState.fps_ticks += 5;
+			globalState.currentFrame--;
+			if (globalState.currentFrame < 0) {
+				globalState.currentFrame = 0;
+			}
 		} else if (MODE_MENU) {
 			
 		}

@@ -8,6 +8,7 @@
 #include "default_font.h"
 
 #include "appstate.h"
+#include "menu.h"
 #include <string>
 
 class TopScreen {
@@ -25,10 +26,22 @@ public:
 private:
 	std::vector<u8> canvas;
 	GlobalState& gState = GlobalState::getInstance();
+	Menu menu;
 };
 
 TopScreen::TopScreen() {
 	canvas = std::vector<u8>(400*240*3, 0);
+
+	// Create demo menu
+	menu.addItem(MenuItem(std::string("Onion")));
+	menu.addItem(MenuItem(std::string("Frame")));
+	menu.addItem(MenuItem(std::string("Tool")));
+	menu.addItem(MenuItem(std::string("Color")));
+
+	menu.at(3).addSubMenu(Menu());
+	menu.at(3).getSubMenu().addItem(MenuItem(std::string("Red")));
+	menu.at(3).getSubMenu().addItem(MenuItem(std::string("Green")));
+	menu.at(3).getSubMenu().addItem(MenuItem(std::string("Blue")));
 }
 
 void TopScreen::update(u8* framebuffer) {
@@ -247,7 +260,16 @@ void TopScreen::drawDemoGui() {
 	drawString(360,224, "Layer:");
 	drawCharacter(360, 232, int_to_font(gState.currentLayer));
 
-	drawCharacter(240, 232, gState.gColors.size());
+	//drawCharacter(240, 232, gState.gColors.size());
+
+	for (int i = 0; i < menu.size(); i++) {
+		drawString(100, i*8, menu.at(i).getName());
+		if (menu.at(i).hasSubMenu()) {
+			for (int k = 0; k < menu.at(i).getSubMenu().size(); k++) {
+				drawString(140 + k*40, i*8, menu.at(i).getSubMenu().at(k).getName());
+			}
+		}
+	}
 }
 
 #endif

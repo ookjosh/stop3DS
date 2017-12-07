@@ -5,6 +5,7 @@
 #include <3ds.h>
 #include <vector>
 #include "frame.h"
+#include "appstate.h"
 
 class Scene {
 public:
@@ -25,6 +26,8 @@ private:
 	unsigned int ticks = 0;
 	unsigned int ticksPerFrame = 60;
 	bool animating = false;
+
+	GlobalState& gState = GlobalState::getInstance();
 };
 
 Scene::Scene() {
@@ -35,6 +38,15 @@ Scene::Scene() {
 void Scene::update(u8* fb) {
 	//printf("Number of frames: %d\n", frames.size());
 	
+	if (gState.addFrame) {
+		addFrame();
+		gState.addFrame = false;
+	}
+
+	getFrame(gState.currentFrame).draw(fb);
+
+	// For animating
+	/*
 	if (ticks > ticksPerFrame) {
 		currentFrame++;
 		if (currentFrame > frames.size() - 1) {
@@ -46,7 +58,7 @@ void Scene::update(u8* fb) {
 	if (animating) {
 		ticks++;	
 	}
-	
+	*/
 };
 
 // Adds frame to end of vector.

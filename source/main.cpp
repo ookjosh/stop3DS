@@ -30,7 +30,7 @@ InputManager input;
 
 int main(int argc, char **argv) {
 	gfxInitDefault();
-	consoleInit(GFX_TOP, NULL);
+	//consoleInit(GFX_TOP, NULL);
 
 	gfxSetDoubleBuffering(GFX_BOTTOM, true);
 	gfxSetDoubleBuffering(GFX_TOP, false);
@@ -57,11 +57,11 @@ int main(int argc, char **argv) {
 		currentAnimation.update(fb);
 		//currentAnimation.getScene(0).getFrame(0).getLayer(0).draw(fb);
 
-		//u8* topfb = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+		u8* topfb = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
 
-		//topScreen.drawDemoGui();
+		topScreen.drawDemoGui();
 		
-		//topScreen.update(topfb);
+		topScreen.update(topfb);
 
 
 		gfxFlushBuffers();

@@ -39,6 +39,8 @@ public:
 	int currentFrame = 0;
 	int currentLayer = 0;
 
+	bool addFrame = false;
+
 	Palette gColors;
 
 	u8 currentColor = 0;
