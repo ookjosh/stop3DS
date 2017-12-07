@@ -22,6 +22,7 @@ public:
 	void drawCharacter(int x, int y, int index);
 	void drawString(int x, int y, std::string s);
 	void drawDemoGui();
+	void drawMenuBox(int x, int y, int index);
 
 private:
 	std::vector<u8> canvas;
@@ -261,7 +262,7 @@ void TopScreen::drawDemoGui() {
 	drawCharacter(360, 232, int_to_font(gState.currentLayer));
 
 	//drawCharacter(240, 232, gState.gColors.size());
-
+	/*
 	for (int i = 0; i < menu.size(); i++) {
 		drawString(100, i*8, menu.at(i).getName());
 		if (menu.at(i).hasSubMenu()) {
@@ -269,7 +270,23 @@ void TopScreen::drawDemoGui() {
 				drawString(140 + k*40, i*8, menu.at(i).getSubMenu().at(k).getName());
 			}
 		}
+	}*/
+	for (int i = 0; i < menu.size(); i++) {
+		drawMenuBox(45+45*i, 195, 16);
+		drawString(45+45*i, 200, menu.at(i).getName());
+		if (menu.at(i).hasSubMenu()) {
+			for (int k = 0; k < menu.at(i).getSubMenu().size(); k++) {
+				drawMenuBox(45+45*i, 150-k*45, 22);
+				drawString(45+45*i, 150-k*45, menu.at(i).getSubMenu().at(k).getName());
+			}
+		}
 	}
+
+}
+
+void TopScreen::drawMenuBox(int x, int y, int index) {
+	fillRect(x, y, 45, 45, gState.gColors.getColor(index));
+	drawRect(x, y, 45, 45, gState.gColors.getColor(0));
 }
 
 #endif
