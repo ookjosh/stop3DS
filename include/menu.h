@@ -27,6 +27,10 @@ public:
 	bool hasSubMenu();
 	std::string& getName();
 	Menu& getSubMenu();
+
+	void performAction();
+
+	void setAction();
 private:
 
 	std::string name = "Default";
@@ -76,6 +80,10 @@ void MenuItem::addSubMenu(Menu submen) {
 
 Menu& MenuItem::getSubMenu() {
 	return subMenu;
+}
+
+void MenuItem::performAction() {
+
 }
 
 
