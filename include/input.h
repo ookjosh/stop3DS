@@ -4,10 +4,15 @@
 //For now...
 #include "color.h"
 
+#include "signal.h"
+
 class InputManager {
 public:
 	InputManager();
 	void update(int appMode);
+
+	// Testing...
+	Signal<> testSignal;
 
 private:
 
@@ -97,7 +102,7 @@ void InputManager::handleKeys(u32 kDown) {
 
 	if (kDown & KEY_A) {
 		if (MODE_DRAWING) {
-
+			testSignal.emit();
 		} else if (MODE_MENU) {
 			
 		}
