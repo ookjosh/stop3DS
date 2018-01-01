@@ -123,6 +123,11 @@ void InputManager::handleKeys(u32 kDown) {
 			//globalState.addFrame = true;
 			//globalState.currentFrame++;
 
+			if (globalState.topMenu == 3) {
+				globalState.currentColor = 16+globalState.subMenu;		
+			}
+			
+
 		} else if (MODE_MENU) {
 			
 		}
@@ -144,6 +149,9 @@ void InputManager::handleKeys(u32 kDown) {
 		if (MODE_DRAWING) {
 			//globalState.onionSkin = !globalState.onionSkin;
 			globalState.topMenu--;
+			if (globalState.topMenu < 0) {
+				globalState.topMenu = 0;
+			}
 		} else if (MODE_MENU) {
 			
 		}

@@ -38,11 +38,20 @@ TopScreen::TopScreen() {
 	menu.addItem(MenuItem(std::string("Frame")));
 	menu.addItem(MenuItem(std::string("Tool")));
 	menu.addItem(MenuItem(std::string("Color")));
+	menu.addItem(MenuItem(std::string("Undo")));
+	menu.addItem(MenuItem(std::string("Etc")));
 
 	menu.at(3).addSubMenu(Menu());
 	menu.at(3).getSubMenu().addItem(MenuItem(std::string("Red")));
 	menu.at(3).getSubMenu().addItem(MenuItem(std::string("Green")));
 	menu.at(3).getSubMenu().addItem(MenuItem(std::string("Blue")));
+
+	menu.at(4).addSubMenu(Menu());
+	menu.at(4).getSubMenu().addItem(MenuItem(std::string("Redo")));
+
+	menu.at(5).addSubMenu(Menu());
+	menu.at(5).getSubMenu().addItem(MenuItem(std::string("FPS")));
+	menu.at(5).getSubMenu().addItem(MenuItem(std::string("Save")));
 }
 
 void TopScreen::update(u8* framebuffer) {
@@ -245,49 +254,6 @@ void TopScreen::drawString(int x, int y, std::string s) {
 }
 
 void TopScreen::drawDemoGui() {
-	fillRect(0,1,400,320, colorList[1]);
-
-	fillRect(0,40,40,40, colorList[7]);
-	fillRect(0,80,40,40, colorList[6]);
-	fillRect(0,120,40,40, colorList[5]);
-	fillRect(0,160,40,40, colorList[4]);
-
-	drawCharacter(16, 48, 'R');
-	drawString(0, 64, "Clear");
-
-	fillRect(360, 40, 40, 40, gState.gColors.getColor(gState.currentColor));
-	drawString(360, 40, "Color");
-
-	drawString(360,224, "Layer:");
-	drawCharacter(360, 232, int_to_font(gState.currentLayer));
-
-	// Draw menu items.
-	for (int i = 0; i < menu.size(); i++) {
-		if (i == gState.topMenu && gState.subMenu < 0) {
-			// Highlight selected top menu item if no submenu
-			drawMenuBox(45+45*i, 195, 28);
-		} else {
-			// Draw top menu box normal
-			drawMenuBox(45+45*i, 195, 16);
-
-			// Draw submenu with highlighting
-			if (menu.at(gState.topMenu).hasSubMenu()) {
-				for (int k = 0; k < menu.at(i).getSubMenu().size(); k++) {
-					if (k == gState.subMenu) {
-						drawMenuBox(45+45*i, 150-k*45, 28);
-					} else {
-						drawMenuBox(45+45*i, 150-k*45, 22);	
-					}
-					
-					drawString(45+45*i, 150-k*45, menu.at(i).getSubMenu().at(k).getName());
-				}
-			}
-		}
-
-		drawString(45+45*i, 200, menu.at(i).getName());
-
-	}
-
 	// Update menu state. I don't like this but it could be ok...
 	if (gState.topMenu > menu.size() - 1) {
 		gState.topMenu = menu.size() - 1;
@@ -304,6 +270,61 @@ void TopScreen::drawDemoGui() {
 	}
 
 	gState.hasSubMenu = menu.at(gState.topMenu).hasSubMenu();
+
+
+	///
+	fillRect(0,1,400,320, colorList[1]);
+
+	fillRect(0,40,40,40, colorList[7]);
+	fillRect(0,80,40,40, colorList[6]);
+	fillRect(0,120,40,40, colorList[5]);
+	fillRect(0,160,40,40, colorList[4]);
+
+	drawCharacter(16, 48, 'R');
+	drawString(0, 64, "Clear");
+
+	fillRect(360, 40, 40, 40, gState.gColors.getColor(gState.currentColor));
+	drawString(360, 40, "Color");
+
+	drawString(360,224, "Layer:");
+	drawCharacter(360, 232, int_to_font(gState.currentLayer));
+	
+	// Draw full menu bar
+	for (int i = 0; i < menu.size(); i++) {
+		drawMenuBox(45+45*i, 195, 16);
+	}
+	// Highlight selection if in main bar
+	if (gState.subMenu < 0) {
+		drawMenuBox(45+45*gState.topMenu, 195, 28);	
+	} else {
+		// Draw submenu otherwise
+		if (menu.at(gState.topMenu).hasSubMenu()) {
+			for (int k = 0; k < menu.at(gState.topMenu).getSubMenu().size(); k++) {
+				if (k== gState.subMenu) {
+					// Highlight selected submenu item.
+					drawMenuBox(45+45*gState.topMenu, 150-gState.subMenu*45, 28);
+				} else {
+					// Draw the rest normally
+					drawMenuBox(45+45*gState.topMenu, 150-k*45, 22);
+				}
+				// Draw their titles
+				drawString(45+45*gState.topMenu, 150-k*45, menu.at(gState.topMenu).getSubMenu().at(k).getName());
+
+			}
+		}
+
+
+	}
+	// Draw menu strings last.
+	for (int i = 0; i < menu.size(); i++) {
+		drawString(45+45*i, 200, menu.at(i).getName());	
+	}
+	
+
+	
+
+	///
+	
 
 }
 
