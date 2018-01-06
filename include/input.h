@@ -126,6 +126,20 @@ void InputManager::handleKeys(u32 kDown) {
 			if (globalState.topMenu == 3) {
 				globalState.currentColor = 16+globalState.subMenu;		
 			}
+
+			if (globalState.topMenu == 2) {
+				switch (globalState.subMenu) {
+					case 0:
+						globalState.currentTool = PEN_1;
+						break;
+					case 1:
+						globalState.currentTool = PEN_4;
+						break;
+					case 2:
+						globalState.currentTool = FLOOD;
+						break;
+				}
+			}
 			
 
 		} else if (MODE_MENU) {
@@ -190,20 +204,29 @@ void InputManager::handleTouch(touchPosition touch) {
 			//return;
 		}
 
+		int penSize = 0;
+		switch (globalState.currentTool) {
+			case PEN_1:
+					penSize = 1;
+				break;
+			case PEN_4:
+					penSize = 4;
+				break;
+			case FLOOD:
+					if (touchThisTick)
+					globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).floodFill(currentTouchX, currentTouchY, globalState.currentColor);		
+				break;
+		}
+
+		///
 		if (touchLastTick && touchThisTick) {
 			
-			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawLine(currentTouchX, currentTouchY, oldTouchX, oldTouchY, 4, globalState.currentColor);
+			globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawLine(currentTouchX, currentTouchY, oldTouchX, oldTouchY, penSize, globalState.currentColor);
 		} else if (touchThisTick) {
-			printf("Dot\n");
-			if (held & KEY_A) {
-				printf("Held\n");
-				globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).floodFill(currentTouchX, currentTouchY, globalState.currentColor);		
-			} else {
-				globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawPixel(currentTouchX, currentTouchY, 4, globalState.currentColor);	
-			}
-			
+				globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).drawPixel(currentTouchX, currentTouchY, penSize, globalState.currentColor);	
 
 		}
+		///
 
 		touchLastTick = touchThisTick;
 		oldTouchX = currentTouchX;

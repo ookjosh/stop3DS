@@ -9,6 +9,7 @@
 
 #include "appstate.h"
 #include "menu.h"
+#include "helpers.h"
 #include <string>
 
 class TopScreen {
@@ -40,6 +41,11 @@ TopScreen::TopScreen() {
 	menu.addItem(MenuItem(std::string("Color")));
 	menu.addItem(MenuItem(std::string("Undo")));
 	menu.addItem(MenuItem(std::string("Etc")));
+
+	menu.at(2).addSubMenu(Menu());
+	menu.at(2).getSubMenu().addItem(MenuItem(std::string("Pen 1")));
+	menu.at(2).getSubMenu().addItem(MenuItem(std::string("Pen 4")));
+	menu.at(2).getSubMenu().addItem(MenuItem(std::string("Flood")));
 
 	menu.at(3).addSubMenu(Menu());
 	menu.at(3).getSubMenu().addItem(MenuItem(std::string("Red")));
@@ -255,6 +261,7 @@ void TopScreen::drawString(int x, int y, std::string s) {
 
 void TopScreen::drawDemoGui() {
 	// Update menu state. I don't like this but it could be ok...
+	// Doing this first ensures proper drawing and clamping.
 	if (gState.topMenu > menu.size() - 1) {
 		gState.topMenu = menu.size() - 1;
 	}
@@ -270,6 +277,23 @@ void TopScreen::drawDemoGui() {
 	}
 
 	gState.hasSubMenu = menu.at(gState.topMenu).hasSubMenu();
+
+	/// GGAAAHHH
+	switch (gState.currentTool) {
+		case PEN_1:
+			menu.at(2).setIcon("Pen 1");
+			break;
+		case PEN_4:
+			menu.at(2).setIcon("Pen 4");
+			break;
+		case FLOOD:
+			menu.at(2).setIcon("Flood");
+			break;
+	}
+
+	// Don't have std::to_string, so this is from helpers.h
+	menu.at(1).setIcon(NumberToString(gState.fps_ticks));
+	///
 
 
 	///
@@ -318,6 +342,8 @@ void TopScreen::drawDemoGui() {
 	// Draw menu strings last.
 	for (int i = 0; i < menu.size(); i++) {
 		drawString(45+45*i, 200, menu.at(i).getName());	
+		// Draw our icon/subtitle
+		drawString(45+45*i, 210, menu.at(i).getIcon());
 	}
 	
 

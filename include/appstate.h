@@ -13,6 +13,7 @@ class Animation;
 
 #include "animation.h"
 #include "palette.h"
+#include "tools.h"
 
 
 enum {
@@ -53,6 +54,8 @@ public:
 	int topMenu = 0;
 	int subMenu = -1;
 	bool hasSubMenu = false;
+
+	ToolType currentTool = PEN_1;
 
 	GlobalState(GlobalState const&) = delete; // Remain unimplemented
 	void operator=(GlobalState const&) = delete; // Remain unimplemented

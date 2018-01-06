@@ -26,14 +26,18 @@ public:
 	void addSubMenu(Menu sub);
 	bool hasSubMenu();
 	std::string& getName();
+	std::string& getIcon();
 	Menu& getSubMenu();
 
 	void performAction();
 
 	void setAction();
+
+	void setIcon(std::string ic);
 private:
 
 	std::string name = "Default";
+	std::string icon = "";
 	bool sub = false;
 	// Default is empty but is 
 	// here for simplicity.
@@ -73,6 +77,10 @@ std::string& MenuItem::getName() {
 	return name;
 }
 
+std::string& MenuItem::getIcon() {
+	return icon;
+}
+
 void MenuItem::addSubMenu(Menu submen) {
 	sub = true;
 	subMenu = submen;
@@ -84,6 +92,12 @@ Menu& MenuItem::getSubMenu() {
 
 void MenuItem::performAction() {
 
+}
+
+// Sets a subtitle to the menu item. For things like
+// showing the currently selected tool or current frame.
+void MenuItem::setIcon(std::string ic) {
+	icon = ic;
 }
 
 
