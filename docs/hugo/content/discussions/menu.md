@@ -48,3 +48,15 @@ Menu 5
   |
 Menu 6
 ```
+
+Interfacing with the menu needs a more generic method...
+```
+menu.next() -> Next menu item (if exists); move right on horiz menu
+menu.prev() -> Previous menu item (if exists); move left on horiz menu
+menu.increment() -> If item has a value associated with it (fps, frame, tool), increment
+menu.decrement() -> If item has a value associated with it, decrement
+menu.sub() -> If item has submenu, get that menu
+	Then menu.sub().next(), etc.
+	menu.sub().sub().increment() <- one day I hope to have this insanity./s
+
+```

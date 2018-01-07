@@ -12,6 +12,7 @@
 #include "helpers.h"
 #include <string>
 
+
 class TopScreen {
 public:
 	TopScreen();
@@ -25,6 +26,8 @@ public:
 	void drawDemoGui();
 	void drawMenuBox(int x, int y, int index);
 
+	Menu& getMenu();
+
 private:
 	std::vector<u8> canvas;
 	GlobalState& gState = GlobalState::getInstance();
@@ -36,7 +39,7 @@ TopScreen::TopScreen() {
 
 	// Create demo menu
 	menu.addItem(MenuItem(std::string("Onion")));
-	menu.addItem(MenuItem(std::string("Frame")));
+	menu.addItem(MenuItem(std::string("Frame"), &gState.fps_ticks));
 	menu.addItem(MenuItem(std::string("Tool")));
 	menu.addItem(MenuItem(std::string("Color")));
 	menu.addItem(MenuItem(std::string("Undo")));
@@ -357,6 +360,10 @@ void TopScreen::drawDemoGui() {
 void TopScreen::drawMenuBox(int x, int y, int index) {
 	fillRect(x, y, 45, 45, gState.gColors.getColor(index));
 	drawRect(x, y, 45, 45, gState.gColors.getColor(0));
+}
+
+Menu& TopScreen::getMenu() {
+	return menu;
 }
 
 #endif

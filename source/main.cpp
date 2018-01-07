@@ -39,9 +39,15 @@ int main(int argc, char **argv) {
 	initColors();
 
 	g.currentAnimation = &currentAnimation;
+	g.topGui = &topScreen;
+
+	// Assign our exit key (unimplemented but w/e!)
+	input.getSignal(KEY_START).connect([](){g.exitApplication = true;});
+	input.setInputs(MODE_DRAWING);
 
 	// Testing signals... :-D
-	input.testSignal.connect([](){g.currentColor=16;});
+	//input.testSignal.connect([](){g.currentColor=16;});
+	//input.getSignal(KEY_DUP).connect([](){g.currentColor=16;});
 
 	//topScreen.drawRect(50, 50, 100, 100, colorList.at(currentColor+4));
 	//topScreen.fillRect(0,0, 40, 240, colorList.at(g.currentColor+4));

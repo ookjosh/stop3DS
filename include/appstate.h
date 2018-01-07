@@ -10,11 +10,12 @@
 
 // Fix where this goes if necessary?
 class Animation;
+class TopScreen;
 
 #include "animation.h"
 #include "palette.h"
 #include "tools.h"
-
+#include "gui.h"
 
 enum {
 	MODE_MENU,
@@ -56,6 +57,8 @@ public:
 	bool hasSubMenu = false;
 
 	ToolType currentTool = PEN_1;
+
+	TopScreen* topGui = NULL;
 
 	GlobalState(GlobalState const&) = delete; // Remain unimplemented
 	void operator=(GlobalState const&) = delete; // Remain unimplemented

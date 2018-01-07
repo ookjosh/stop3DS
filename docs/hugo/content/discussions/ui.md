@@ -45,5 +45,31 @@ KEY_L |
 KEY_ZR | N3DS only
 KEY_ZL | N3DS only
 
-I think to set the signals I'll have an enum of Inputs and a function like `assignFunction(Input key, function toDo)` that other
+I think to set the signals I'll use the ctrulib provided input enum and a function like `assignFunction(Input key, function toDo)` that other
 things can interface with.
+
+This works! At least the initial bit. So now I need to find out where it's best to put the assignments.
+
+Pros of having all of the inputs handled centrally:
+* Easy to see conflicts
+* Clear what is listening/acting on inputs
+
+Cons of central handling:
+* Potentially inflexible
+* Spilling of state
+
+Pros of decentralized:
+* Easier to modularize
+* Individual components can assume control of inputs
+
+Cons of decentralized:
+* Harder to see what is latched to an input
+* Harder to identify conflicts
+
+What are our inputs and what do they do:
+
+* Menu manipulation/navigation
+* Drawing
+
+I'm going to stick with a central input manager that has the ability to attach signals as necessary (remap buttons if you will) which will give me the flexibility I wanted there (convenient remapping) with the convenience of having everything in a central place. I didn't really see a good place to put the functions outside of the manager without introducing other complications.
+

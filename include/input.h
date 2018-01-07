@@ -11,9 +11,11 @@ public:
 	InputManager();
 	void update(int appMode);
 
+	void setInputs(int mode);
+
 	// Testing...
 	Signal<> testSignal;
-
+	Signal<>& getSignal(int key);
 private:
 
 	GlobalState& globalState = GlobalState::getInstance();
@@ -29,7 +31,81 @@ private:
 
 	void handleTouch(touchPosition touch);
 	void handleKeys(u32 kDown);
+
+	Signal<> signal_A;
+	Signal<> signal_B;
+	Signal<> signal_X;
+	Signal<> signal_Y;
+	Signal<> signal_DUP;
+	Signal<> signal_DDOWN;
+	Signal<> signal_DLEFT;
+	Signal<> signal_DRIGHT;
+	Signal<> signal_L;
+	Signal<> signal_R;
+	Signal<> signal_ZL;
+	Signal<> signal_ZR;
+	Signal<> signal_START;
+	Signal<> signal_SELECT;
+	Signal<> signal_TOUCH;
+
+	
 };
+
+Signal<>& InputManager::getSignal(int key) {
+	switch (key) {
+		case KEY_A:
+			return signal_A;
+			break;
+		case KEY_B:
+			return signal_B;
+			break;
+		case KEY_X:
+			return signal_X;
+			break;
+		case KEY_Y:
+			return signal_Y;
+			break;
+		// DPad only. KEY_UP/etc is dpad or circle pad.
+		case KEY_DUP:
+			return signal_DUP;
+			break;
+		case KEY_DDOWN:
+			return signal_DDOWN;
+			break;
+		case KEY_DLEFT:
+			return signal_DLEFT;
+			break;
+		case KEY_DRIGHT:
+			return signal_DRIGHT;
+			break;
+		case KEY_START:
+			return signal_START;
+			break;
+		case KEY_SELECT:
+			return signal_SELECT;
+			break;
+		case KEY_L:
+			return signal_L;
+			break;
+		case KEY_R:
+			return signal_R;
+			break;
+		case KEY_ZL:
+			return signal_ZL;
+			break;
+		case KEY_ZR:
+			return signal_ZR;
+			break;
+		case KEY_TOUCH:
+			return signal_TOUCH;
+			break;
+
+		default:
+
+			break;
+	}
+	
+}
 
 InputManager::InputManager() {
 
@@ -52,133 +128,46 @@ void InputManager::update(int appMode) {
 
 void InputManager::handleKeys(u32 kDown) {
 	if (kDown & KEY_START) {
-		globalState.exitApplication = true;
+		signal_START.emit();
 	}
 	if (kDown & KEY_UP) {
-		if (MODE_DRAWING) {
-			//globalState.currentLayer = 1;
-			//printf("Current layer: %d", globalState.currentLayer);
-			if (globalState.hasSubMenu) {
-				globalState.subMenu++;
-			}
-		} else if (MODE_MENU) {
-
-		}
+		signal_DUP.emit();
 	}
 
 	if (kDown & KEY_LEFT) {
-		if (MODE_DRAWING) {
-			
-			//if (globalState.currentColor > 0) {
-			//	globalState.currentColor--;
-			//}
-		} else if (MODE_MENU) {
-			
-		}
+		signal_DLEFT.emit();
 	}
 
 	if (kDown & KEY_DOWN) {
-		if (MODE_DRAWING) {
-			//globalState.currentLayer = 0;
-			//printf("Current layer: %d", globalState.currentLayer);
-			if (globalState.hasSubMenu) {
-				globalState.subMenu--;
-			}
-
-		} else if (MODE_MENU) {
-			
-		}
+		signal_DDOWN.emit();
 	}
 
 	if (kDown & KEY_RIGHT) {
-		if (MODE_DRAWING) {
-			//if (globalState.currentColor < globalState.gColors.size()-1) {
-			//	globalState.currentColor++;
-			//}
-		} else if (MODE_MENU) {
-			
-		}
+		signal_DRIGHT.emit();
 	}
 
 	if (kDown & KEY_A) {
-		if (MODE_DRAWING) {
-			testSignal.emit();
-		} else if (MODE_MENU) {
-			
-		}
+		signal_A.emit();
 	}
 
 	if (kDown & KEY_B) {
-		if (MODE_DRAWING) {
-			//globalState.animating = !globalState.animating;
-
-		} else if (MODE_MENU) {
-			
-		}
+		signal_B.emit();
 	}
 
 	if (kDown & KEY_X) {
-		if (MODE_DRAWING) {
-			//globalState.fps_ticks -= 5;
-			//globalState.addFrame = true;
-			//globalState.currentFrame++;
-
-			if (globalState.topMenu == 3) {
-				globalState.currentColor = 16+globalState.subMenu;		
-			}
-
-			if (globalState.topMenu == 2) {
-				switch (globalState.subMenu) {
-					case 0:
-						globalState.currentTool = PEN_1;
-						break;
-					case 1:
-						globalState.currentTool = PEN_4;
-						break;
-					case 2:
-						globalState.currentTool = FLOOD;
-						break;
-				}
-			}
-			
-
-		} else if (MODE_MENU) {
-			
-		}
+		signal_X.emit();
 	}
 
 	if (kDown & KEY_Y) {
-		if (MODE_DRAWING) {
-			//globalState.fps_ticks += 5;
-			//globalState.currentFrame--;
-			//if (globalState.currentFrame < 0) {
-			//	globalState.currentFrame = 0;
-			//}
-		} else if (MODE_MENU) {
-			
-		}
+		signal_Y.emit();
 	}
 
 	if (kDown & KEY_L) {
-		if (MODE_DRAWING) {
-			//globalState.onionSkin = !globalState.onionSkin;
-			globalState.topMenu--;
-			if (globalState.topMenu < 0) {
-				globalState.topMenu = 0;
-			}
-		} else if (MODE_MENU) {
-			
-		}
+		signal_L.emit();
 	}
 
 	if (kDown & KEY_R) {
-		if (MODE_DRAWING) {
-			//printf("CleARING\n");
-			//globalState.currentAnimation->getScene(globalState.currentScene).getFrame(globalState.currentFrame).getLayer(globalState.currentLayer).clear();
-			globalState.topMenu++;
-		} else if (MODE_MENU) {
-			
-		}
+		signal_R.emit();
 	}
 }
 
@@ -233,6 +222,84 @@ void InputManager::handleTouch(touchPosition touch) {
 		oldTouchY = currentTouchY;
 
 	} else if (MODE_MENU) {
+
+	}
+}
+
+
+// Sets our input assignments in a centralized location. This makes assigning/reassigning signals and their functions
+// very simple.
+void InputManager::setInputs(int mode) {
+	switch (mode) {
+		// Our main mode for 99% of things so far.
+		case MODE_DRAWING:
+			signal_A.connect([&](){});
+			signal_B.connect([&](){});
+			signal_X.connect([&](){
+				if (globalState.topMenu == 3) {
+					globalState.currentColor = 16+globalState.subMenu;		
+				}
+
+				if (globalState.topMenu == 2) {
+					switch (globalState.subMenu) {
+						case 0:
+							globalState.currentTool = PEN_1;
+							break;
+						case 1:
+							globalState.currentTool = PEN_4;
+							break;
+						case 2:
+							globalState.currentTool = FLOOD;
+							break;
+					}
+				}
+			});
+			signal_Y.connect([&](){});
+			signal_SELECT.connect([&](){});
+			signal_START.connect([&](){});
+			signal_R.connect([&](){
+				int index = globalState.topGui->getMenu().index();
+				globalState.topGui->getMenu().at(index).increment();
+				globalState.topGui->fillRect(50,20,50,50, colorList.at(5));
+			});
+			signal_L.connect([&](){
+				globalState.topMenu--;
+				if (globalState.topMenu < 0) {
+					globalState.topMenu = 0;
+				}
+				int index = globalState.topGui->getMenu().index();
+				globalState.topGui->getMenu().at(index).decrement();
+			});
+			signal_ZR.connect([&](){});
+			signal_ZL.connect([&](){});
+			signal_DRIGHT.connect([&](){
+				globalState.topMenu++;
+				
+			});
+			signal_DLEFT.connect([&](){
+				globalState.topMenu--;
+				if (globalState.topMenu < 0) {
+					globalState.topMenu = 0;
+				}
+			});
+			signal_DUP.connect([&](){
+				if (globalState.hasSubMenu) {
+					globalState.subMenu++;
+				}
+			});
+			signal_DDOWN.connect([&](){
+				if (globalState.hasSubMenu) {
+					globalState.subMenu--;
+				}
+			});
+
+
+			break;
+
+		case MODE_MENU:
+			break;
+		default:
+			break;
 
 	}
 }
